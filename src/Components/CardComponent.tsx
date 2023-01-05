@@ -2,27 +2,33 @@ import React from 'react';
 import {
   Heading, CardBody, Image, Stack, Card, Text, Divider, CardFooter, ButtonGroup, Button,
 } from '@chakra-ui/react';
+import type { Product } from '../Types/ProductType';
 
-export default function CardComponent() {
+export default function CardComponent({ product }) {
+  const {
+    title, description, price, thumbnail,
+  } = product;
   return (
     <Card
       maxW="262"
     >
       <CardBody>
         <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          alt="Green double couch with wooden legs"
+          objectFit="cover"
+          src={thumbnail}
+          alt={title}
           borderRadius="sm"
+          height={160}
+          maxH={170}
         />
         <Stack mt="2" spacing="1">
-          <Heading size="sm">Living room Sofa</Heading>
+          <Heading size="sm">{title}</Heading>
           <Text isTruncated>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces, earthy toned spaces and for people who love a chic design with a
-            sprinkle of vintage design.
+            {description}
           </Text>
           <Text color="blue.600" fontSize="md">
-            $450
+            $
+            {price}
           </Text>
         </Stack>
       </CardBody>

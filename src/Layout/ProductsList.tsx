@@ -1,19 +1,34 @@
-import { Box, Heading } from '@chakra-ui/react';
-import React, { ReactNode } from 'react';
+import { Box, Heading, Flex } from '@chakra-ui/react';
+import React from 'react';
+import type { Product } from 'src/Types/ProductType';
+import SearchComponent from 'src/Components/SearchComponent';
+import SelectSortComponent from 'src/Components/SelectSortComponent';
+import ProductCard from '../Components/CardComponent';
 
-export default function ProductsList({ label, children }:
-{ label: ReactNode, children: ReactNode }) {
+export default function ProductsList({ label, products }) {
   return (
     <Box>
-      <Box py={4} textAlign="center">
-        <Heading as="h3" size="md" fontWeight="medium">
-          {label}
-          _
-        </Heading>
+      <Box py={3} textAlign="center">
+        <Flex alignItems="center" justifyContent="space-between">
+          <Box><SelectSortComponent /></Box>
+          <Box>
+            <Heading as="h3" size="md" fontWeight="medium">
+              <pre>
+                {label}
+                {products.length}
+              </pre>
+            </Heading>
+          </Box>
+          <Box>
+            <SearchComponent />
+          </Box>
+        </Flex>
       </Box>
       <div>
-        {children}
-        {' '}
+        <Flex gap={6} flexWrap="wrap">
+          {products.map((product: Product) => <ProductCard key={product.id} product={product} />)}
+
+        </Flex>
       </div>
     </Box>
   );
