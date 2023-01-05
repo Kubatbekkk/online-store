@@ -1,10 +1,11 @@
 import { Box, Heading, Flex } from '@chakra-ui/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import type { Product } from 'src/Types/ProductType';
 import SearchComponent from 'src/Components/SearchComponent';
 import SelectSortComponent from 'src/Components/SelectSortComponent';
+import ProductCard from '../Components/CardComponent';
 
-export default function ProductsList({ label, children }:
-{ label: ReactNode, children: ReactNode }) {
+export default function ProductsList({ label, products }) {
   return (
     <Box>
       <Box py={3} textAlign="center">
@@ -14,7 +15,7 @@ export default function ProductsList({ label, children }:
             <Heading as="h3" size="md" fontWeight="medium">
               <pre>
                 {label}
-                _
+                {products.length}
               </pre>
             </Heading>
           </Box>
@@ -24,8 +25,10 @@ export default function ProductsList({ label, children }:
         </Flex>
       </Box>
       <div>
-        {children}
-        {' '}
+        <Flex gap={6} flexWrap="wrap">
+          {products.map((product: Product) => <ProductCard key={product.id} product={product} />)}
+
+        </Flex>
       </div>
     </Box>
   );
