@@ -3,9 +3,9 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-export default function RangeSliderByPrice() {
+export default function RangeSliderByStock() {
   return (
-    <RangeSlider defaultValue={[0, 100]}>
+    <RangeSlider defaultValue={[10, 30]}>
       <RangeSliderTrack>
         <RangeSliderFilledTrack />
       </RangeSliderTrack>

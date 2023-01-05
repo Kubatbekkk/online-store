@@ -7,6 +7,8 @@ import Layout from 'src/Layout/Layout';
 import ProductsList from 'src/Layout/ProductsList';
 import FilterCard from 'src/Components/FilterCard';
 import RangeSliderByPrice from 'src/Components/RangeSliderByPrice';
+import RangeSliderByStock from 'src/Components/RangeSliderByStock';
+import FilterCheckBoxComponent from 'src/Components/FilterCheckboxComponent';
 import ProductCard from '../Components/CardComponent';
 
 export default function HomePage() {
@@ -21,10 +23,10 @@ export default function HomePage() {
             <GridItem colSpan={1}>
               <FilterSidebar>
                 <Flex direction="column" gap={4}>
-                  {/* <FilterCard title="Category">' '</FilterCard> */}
-                  {/* <FilterCard title="Brand">' '</FilterCard> */}
+                  <FilterCard title="Category"><FilterCheckBoxComponent /></FilterCard>
+                  <FilterCard title="Brand"><FilterCheckBoxComponent /></FilterCard>
                   <FilterCard title="Price"><RangeSliderByPrice /></FilterCard>
-                  {/* <FilterCard title="Stock">' '</FilterCard> */}
+                  <FilterCard title="Stock"><RangeSliderByStock /></FilterCard>
                 </Flex>
               </FilterSidebar>
             </GridItem>
