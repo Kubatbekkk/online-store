@@ -1,0 +1,91 @@
+html,
+body {
+  font-family: system-ui, Sans-Serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+header,
+footer,
+main {
+  padding: 24px;
+}
+header,
+footer {
+  background-color: aliceblue;
+}
+
+li {
+  list-style-type: none;
+}
+a {
+  color: #666;
+  transition: 0.9s;
+}
+a:hover {
+  color: rgba(12, 11, 11, 0.835);
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+header {
+  border-bottom: 1px solid #eee;
+}
+
+footer {
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.heading-404 {
+  text-align: center;
+}
+
+.layout-section {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+}
+
+.showcase {
+  position: relative;
+  min-height: 200px;
+  background-color: #efefef;
+}
+
+.showcase-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  font-weight: bold;
+  display: none;
+}
+
+.showcase-item-current {
+  z-index: 1;
+  display: grid;
+}
+.product-item {
+  color: rgb(3, 17, 58);
+  text-decoration: underline;
+  transition: 0.5s;
+}
+.product-item:hover {
+  color: rgb(17, 35, 202);
+}
+
+.svg_wrapper > *:hover {
+  fill: red;
+}
