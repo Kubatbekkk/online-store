@@ -76,7 +76,7 @@ export default function Footer() {
     >
       <Container
         as={Stack}
-        maxW="5xl"
+        maxW="6xl"
         py={4}
         direction={{ base: 'column', md: 'row' }}
         spacing={4}
