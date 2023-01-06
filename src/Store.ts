@@ -28,7 +28,7 @@ type ProductListState =
     filteredProducts: Product[]
     totalItems: number;
     searchValue: string;
-    sortType: 'asc' | 'des'
+    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'
   };
   type ProductsAction =
   {
@@ -41,7 +41,13 @@ type ProductListState =
     payload: {
       searchValue: string
     }
-  } | { type: 'init' } ;
+  } | { type: 'init' }
+  | {
+    type: 'sortProducts';
+    payload: {
+      sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
+    };
+  };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
 function productListReducer(state: ProductListState = {
@@ -49,7 +55,7 @@ function productListReducer(state: ProductListState = {
   filteredProducts: [],
   totalItems: 0,
   searchValue: '',
-  sortType: 'asc',
+  sortType: 'lowest',
 }, action: ProductsAction): ProductListState {
   switch (action.type) {
     case 'init':
@@ -58,7 +64,7 @@ function productListReducer(state: ProductListState = {
         filteredProducts: [],
         totalItems: 0,
         searchValue: '',
-        sortType: 'asc',
+        sortType: 'lowest',
       };
     case 'setProducts': {
       return {
@@ -68,6 +74,26 @@ function productListReducer(state: ProductListState = {
           sortValues(selectValues(state.searchValue, [...action.payload.products]), state.sortType),
       };
     }
+    case 'findItemFromList': {
+      const { searchValue } = action.payload;
+      return {
+        ...state,
+        filteredProducts: sortValues(
+          selectValues(searchValue, state.products),
+          state.sortType,
+        ),
+        searchValue,
+      };
+    }
+    case 'sortProducts':
+      return {
+        ...state,
+        sortType: action.payload.sortType,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, state.products),
+          action.payload.sortType,
+        ),
+      };
     default: {
       return state;
     }

@@ -23,7 +23,6 @@ export default function HomePage() {
     setState(store.getState());
     return store.subscribe(() => setState(store.getState()));
   }, []);
-
   return (
     <Layout>
       <Box>
@@ -43,7 +42,18 @@ export default function HomePage() {
               </FilterSidebar>
             </GridItem>
             <GridItem colSpan={3} w="100%">
-              <ProductsList label="Found: " products={state.filteredProducts} />
+              <ProductsList
+                label="Found: "
+                handleSearch={(searchValue: string) => {
+                  store.dispatch(actions.findItemFromList(searchValue));
+                }}
+                handleSort={
+                  (sortType: string) => {
+                    store.dispatch((actions.sortProducts(sortType)));
+                  }
+                }
+                products={state.filteredProducts}
+              />
             </GridItem>
           </Grid>
         </Container>

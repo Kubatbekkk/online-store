@@ -6,11 +6,19 @@ type SetProductsAction = {
     products: Product[]
   }
 };
+
 type FindItemFromListAction = {
   type: 'findItemFromList',
   payload: {
     searchValue: string
   }
+};
+
+type SortProductsAction = {
+  type: 'sortProducts';
+  payload: {
+    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
+  };
 };
 
 export function init(): { type: 'init' } {
@@ -33,6 +41,15 @@ export function findItemFromList(searchValue: string): FindItemFromListAction {
     type: 'findItemFromList',
     payload: {
       searchValue,
+    },
+  };
+}
+
+export function sortProducts(sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'): SortProductsAction {
+  return {
+    type: 'sortProducts',
+    payload: {
+      sortType,
     },
   };
 }
