@@ -1,6 +1,5 @@
-# Setup React, TypeScript, Webpack, and Babel from scratch without create-react-app CLI
+### Setup React, TypeScript, Webpack, and Babel
 
-## Usage
+### online-store-draft
 
-Installation: npm install
-# online-store-draft
+Draft version of the RSSchool Online Store project
