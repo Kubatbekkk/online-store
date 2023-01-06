@@ -12,6 +12,7 @@
         "noUnusedParameters": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
+        "sourceMap": true,
         //Rules strict
         "alwaysStrict": true,
         "strictBindCallApply": true,

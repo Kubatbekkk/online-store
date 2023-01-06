@@ -23,6 +23,7 @@ export default function HomePage() {
     setState(store.getState());
     return store.subscribe(() => setState(store.getState()));
   }, []);
+
   return (
     <Layout>
       <Box>
@@ -42,7 +43,7 @@ export default function HomePage() {
               </FilterSidebar>
             </GridItem>
             <GridItem colSpan={3} w="100%">
-              <ProductsList label="Found: " products={state.products} />
+              <ProductsList label="Found: " products={state.filteredProducts} />
             </GridItem>
           </Grid>
         </Container>

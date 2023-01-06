@@ -241,12 +241,12 @@ const products: Product[] = [
     stock: 61,
     brand: 'Fog Scent Xpressio',
     category: 'fragrances',
-    thumbnail: 'https://i.dummyjson.com/data/products/13/thumbnail.webp',
+    thumbnail: 'https://i.dummyjson.com/data/products/13/4.jpg',
     images: [
       'https://i.dummyjson.com/data/products/13/1.jpg',
       'https://i.dummyjson.com/data/products/13/2.png',
       'https://i.dummyjson.com/data/products/13/3.jpg',
-      'https://i.dummyjson.com/data/products/13/4.jpg',
+      '',
       'https://i.dummyjson.com/data/products/13/thumbnail.webp',
     ],
   },
@@ -416,7 +416,7 @@ const products: Product[] = [
     stock: 146,
     brand: 'Bake Parlor Big',
     category: 'groceries',
-    thumbnail: 'https://i.dummyjson.com/data/products/22/thumbnail.jpg',
+    thumbnail: 'https://i.dummyjson.com/data/products/22/2.jpg',
     images: [
       'https://i.dummyjson.com/data/products/22/1.jpg',
       'https://i.dummyjson.com/data/products/22/2.jpg',
@@ -454,7 +454,7 @@ const products: Product[] = [
     stock: 113,
     brand: 'fauji',
     category: 'groceries',
-    thumbnail: 'https://i.dummyjson.com/data/products/24/thumbnail.jpg',
+    thumbnail: 'https://i.dummyjson.com/data/products/24/1.jpg',
     images: [
       'https://i.dummyjson.com/data/products/24/1.jpg',
       'https://i.dummyjson.com/data/products/24/2.jpg',

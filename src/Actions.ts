@@ -6,6 +6,12 @@ type SetProductsAction = {
     products: Product[]
   }
 };
+type FindItemFromListAction = {
+  type: 'findItemFromList',
+  payload: {
+    searchValue: string
+  }
+};
 
 export function init(): { type: 'init' } {
   return {
@@ -18,6 +24,15 @@ export function setProducts(products: Product[]): SetProductsAction {
     type: 'setProducts',
     payload: {
       products,
+    },
+  };
+}
+
+export function findItemFromList(searchValue: string): FindItemFromListAction {
+  return {
+    type: 'findItemFromList',
+    payload: {
+      searchValue,
     },
   };
 }
