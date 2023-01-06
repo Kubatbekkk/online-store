@@ -5,7 +5,7 @@ import {
 // import { Link as WLink } from 'wouter';
 import Cart from './CartComponent';
 
-export default function Navbar() {
+export default function Navbar({ totalItems }: { totalItems: number }) {
   return (
     <Box boxShadow="base" bg={useColorModeValue('gray.50', 'gray.900')}>
       <Container maxW="6xl">
@@ -16,7 +16,7 @@ export default function Navbar() {
           </Link>
           <Heading size="sm" fontWeight="medium">Cart Total: _</Heading>
           <Link href="/cart" _hover={{ textDecoration: 'none' }}>
-            <Cart />
+            <Cart totalItems={totalItems} />
           </Link>
 
         </Flex>

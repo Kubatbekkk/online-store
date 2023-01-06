@@ -1,4 +1,6 @@
-import { Box, Heading, Flex } from '@chakra-ui/react';
+import {
+  Box, Heading, Flex, Text,
+} from '@chakra-ui/react';
 import React from 'react';
 import type { Product } from 'src/Types/ProductType';
 import SearchComponent from 'src/Components/SearchComponent';
@@ -6,7 +8,7 @@ import SelectSortComponent from 'src/Components/SelectSortComponent';
 import ProductCard from '../Components/CardComponent';
 
 export default function ProductsList({
-  label, products, handleSearch, handleSort,
+  products, handleSearch, handleSort, handleAddToCart,
 }) {
   return (
     <Box>
@@ -17,10 +19,16 @@ export default function ProductsList({
           </Box>
           <Box>
             <Heading as="h3" size="md" fontWeight="medium">
-              <pre>
-                {label}
-                {products.length}
-              </pre>
+
+              {' '}
+              {products.length === 0
+                ? (<Text color="blue.400">Loading...</Text>)
+                : (
+                  <Text animation="ease-in">
+                    Found:
+                    {products.length}
+                  </Text>
+                )}
             </Heading>
           </Box>
           <Box>
@@ -30,7 +38,7 @@ export default function ProductsList({
       </Box>
       <div>
         <Flex gap={6} flexWrap="wrap">
-          {products.map((product: Product) => <ProductCard key={product.id} product={product} />)}
+          {products.map((product: Product) => <ProductCard key={product.id} product={product} handleAddToCart={handleAddToCart} />)}
         </Flex>
       </div>
     </Box>

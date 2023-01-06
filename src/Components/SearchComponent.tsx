@@ -1,11 +1,11 @@
 /* eslint-disable react/no-children-prop */
 import {
-  InputGroup, InputLeftElement, Input, InputRightElement,
+  InputGroup, InputLeftElement, Input,
 } from '@chakra-ui/react';
 import React from 'react';
-import { SearchIcon, CloseIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 
-export default function SearchComponent({ handleSearch }) {
+export default function SearchComponent({ handleSearch } : { handleSearch: Function }) {
   return (
     <InputGroup>
       <InputLeftElement
@@ -20,7 +20,6 @@ export default function SearchComponent({ handleSearch }) {
         borderRadius={5}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
       />
-      <InputRightElement />
     </InputGroup>
   );
 }

@@ -14,10 +14,19 @@ type FindItemFromListAction = {
   }
 };
 
-type SortProductsAction = {
+export type SortUnionType = 'lowest' | 'highest' | 'nameA' | 'nameZ';
+
+export type SortProductsAction = {
   type: 'sortProducts';
   payload: {
-    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
+    sortType: SortUnionType;
+  };
+};
+
+type AddToCartAction = {
+  type: 'addToCart';
+  payload: {
+    productId: number;
   };
 };
 
@@ -44,12 +53,20 @@ export function findItemFromList(searchValue: string): FindItemFromListAction {
     },
   };
 }
-
-export function sortProducts(sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'): SortProductsAction {
+export function sortProducts(sortType: SortUnionType): SortProductsAction {
   return {
     type: 'sortProducts',
     payload: {
       sortType,
+    },
+  };
+}
+
+export function addToCart(productId: number): AddToCartAction {
+  return {
+    type: 'addToCart',
+    payload: {
+      productId,
     },
   };
 }

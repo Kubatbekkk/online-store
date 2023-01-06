@@ -24,7 +24,7 @@ export default function HomePage() {
     return store.subscribe(() => setState(store.getState()));
   }, []);
   return (
-    <Layout>
+    <Layout totalItems={state.totalItems}>
       <Box>
         <Container maxW="6xl">
           <Grid
@@ -43,16 +43,20 @@ export default function HomePage() {
             </GridItem>
             <GridItem colSpan={3} w="100%">
               <ProductsList
-                label="Found: "
+                products={state.filteredProducts}
                 handleSearch={(searchValue: string) => {
                   store.dispatch(actions.findItemFromList(searchValue));
                 }}
                 handleSort={
-                  (sortType: string) => {
+                  (sortType: actions.SortUnionType) => {
                     store.dispatch((actions.sortProducts(sortType)));
                   }
                 }
-                products={state.filteredProducts}
+                handleAddToCart={
+                  (productId: number) => {
+                    store.dispatch(actions.addToCart(productId));
+                  }
+                }
               />
             </GridItem>
           </Grid>

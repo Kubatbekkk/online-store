@@ -5,6 +5,7 @@ import type { Product } from './Types/ProductType';
 import createApiService from './ApiService';
 import selectValues from './utils/selectValues';
 import sortValues from './utils/sortValues';
+import { SortUnionType } from './Actions';
 
 export default function initProductListStore(options: { api: typeof Api }) {
   const { api } = options;
@@ -43,10 +44,17 @@ type ProductListState =
     }
   } | { type: 'init' }
   | {
+    type: 'addToCart',
+    payload: {
+      productId: number
+    }
+  }
+  | {
     type: 'sortProducts';
     payload: {
-      sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
-    };
+      sortType: SortUnionType;
+    }
+
   };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -92,6 +100,30 @@ function productListReducer(state: ProductListState = {
         filteredProducts: sortValues(
           selectValues(state.searchValue, state.products),
           action.payload.sortType,
+        ),
+      };
+    case 'addToCart':
+      // eslint-disable-next-line no-case-declarations
+      const products = state.products.map((product) => {
+        if (product.id === action.payload.productId) {
+          return {
+            ...product,
+            cartCount: Math.min(product.cartCount + 1, 1),
+          };
+        }
+        return product;
+      });
+
+      // eslint-disable-next-line no-case-declarations
+      const totalItem = products.reduce((sum, product) => sum + product.cartCount, 0);
+      const total_Amoun = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      return {
+        ...state,
+        products,
+        totalItems: totalItem,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, products),
+          state.sortType,
         ),
       };
     default: {

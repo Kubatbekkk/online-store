@@ -24,6 +24,8 @@ module.exports = {
     'linebreak-style': [
       'error',
       'windows',
-    ]
+    ],
+    "@typescript-eslint/ban-types": "off",
+    "react/prop-types": "off"
   },
 };

@@ -6,7 +6,7 @@ import React from 'react';
 
 import { SlHandbag } from 'react-icons/sl';
 
-export default function Cart() {
+export default function Cart({ totalItems }: { totalItems: number }) {
   return (
     <HStack spacing={-2}>
       <Badge bg={useColorModeValue('red.500', 'red.900')} h={7} w={7} borderRadius={50} zIndex={1}>
@@ -19,7 +19,7 @@ export default function Cart() {
           alignItems="center"
           pt={1}
         >
-          10
+          {totalItems || 0}
         </Text>
       </Badge>
       <Box>

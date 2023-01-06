@@ -1,7 +1,7 @@
 import { Stack, Select } from '@chakra-ui/react';
 import React from 'react';
 
-export default function SelectSortComponent({ handleSort }) {
+export default function SelectSortComponent({ handleSort }: { handleSort: Function }) {
   return (
     <Stack spacing={3}>
       <Select

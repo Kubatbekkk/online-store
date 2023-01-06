@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import './style.css';
 import { Route, Router, Switch } from 'wouter';
@@ -9,9 +10,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={HomePage} />
-        <Route path="/cart" component={CartPage} />
-        <Route path="/:rest*" component={NotFoundPage} />
+        <Route path="/" component={() => <HomePage />} />
+        <Route path="/cart" component={() => <CartPage />} />
+        <Route path="/:rest*" component={() => <NotFoundPage />} />
       </Switch>
     </Router>
   );
