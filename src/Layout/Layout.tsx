@@ -2,12 +2,13 @@ import React, { ReactNode } from 'react';
 import Footer from 'src/Components/FooterComponent';
 
 import Navbar from 'src/Components/Navbar';
+import useStoreState from 'src/hooks/useStoreState';
 
-export default function Layout({ children, totalItems }: {
-  children: ReactNode, totalItems: number }) {
+export default function Layout({ children }) {
+  const [state] = useStoreState();
   return (
     <div className="layout-section">
-      <Navbar totalItems={totalItems} />
+      <Navbar totalItems={state.totalItems} totalAmount={state.totalAmount} />
       <main>{children}</main>
       <Footer />
     </div>

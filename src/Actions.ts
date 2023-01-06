@@ -29,6 +29,21 @@ type AddToCartAction = {
     productId: number;
   };
 };
+type RemoveFromCartAction = {
+  type: 'removeFromCart';
+  payload: {
+    productId: number;
+  };
+};
+
+export function removeFromCart(productId: number): RemoveFromCartAction {
+  return {
+    type: 'removeFromCart',
+    payload: {
+      productId,
+    },
+  };
+}
 
 export function init(): { type: 'init' } {
   return {

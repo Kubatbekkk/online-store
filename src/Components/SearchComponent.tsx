@@ -18,7 +18,6 @@ export default function SearchComponent({ handleSearch, searchValue }) {
         type="search"
         placeholder="Search"
         value={searchValue}
-        autoFocus
         size="sm"
         maxW={200}
         borderRadius={5}

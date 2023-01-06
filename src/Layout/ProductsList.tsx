@@ -9,8 +9,9 @@ import ProductCard from '../Components/CardComponent';
 import * as actions from '../Actions';
 
 export default function ProductsList({
-  products, handleSearch, handleSort, handleAddToCart, state, dispatch,
+  products, handleSort, handleAddToCart, state, dispatch, handleRemoveFromCart,
 }) {
+  const { searchValue } = state;
   return (
     <Box>
       <Box py={3} textAlign="center">
@@ -31,14 +32,14 @@ export default function ProductsList({
               handleSearch={(searchValue: string) => {
                 dispatch(actions.findItemFromList(searchValue));
               }}
-              searchValue={state.searchValue}
+              searchValue={searchValue}
             />
           </Box>
         </Flex>
       </Box>
       <div>
         <Flex gap={6} flexWrap="wrap">
-          {products.map((product: Product) => <ProductCard key={product.id} product={product} handleAddToCart={handleAddToCart} />)}
+          {products.map((product: Product) => <ProductCard key={product.id} product={product} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />)}
         </Flex>
       </div>
     </Box>

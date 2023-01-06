@@ -30,6 +30,7 @@ export type ProductListState =
     products: Product[];
     filteredProducts: Product[]
     totalItems: number;
+    totalAmount: number;
     searchValue: string;
     sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'
   };
@@ -53,18 +54,32 @@ export type ProductListState =
     }
   }
   | {
+    type: 'removeFromCart',
+    payload: {
+      productId: number
+    }
+  }
+  | {
     type: 'sortProducts';
     payload: {
       sortType: SortUnionType;
     }
 
   };
+// const getLocalStorage = () => {
+//   const totalItems = localStorage.getItem('totalItems');
+//   if (totalItems) {
+//     return JSON.parse(localStorage.getItem('totalItems'));
+//   }
+//   return 0;
+// };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
 function productListReducer(state: ProductListState = {
   products: [],
   filteredProducts: [],
   totalItems: 0,
+  totalAmount: 0,
   searchValue: '',
   sortType: 'lowest',
 }, action: ProductsAction): ProductListState {
@@ -74,6 +89,7 @@ function productListReducer(state: ProductListState = {
         products: [],
         filteredProducts: [],
         totalItems: 0,
+        totalAmount: 0,
         searchValue: '',
         sortType: 'lowest',
       };
@@ -83,6 +99,7 @@ function productListReducer(state: ProductListState = {
         products: [...action.payload.products],
         filteredProducts:
           sortValues(selectValues(state.searchValue, [...action.payload.products]), state.sortType),
+        totalItems: 0,
       };
     }
     case 'findItemFromList': {
@@ -119,16 +136,41 @@ function productListReducer(state: ProductListState = {
 
       // eslint-disable-next-line no-case-declarations
       const totalItem = products.reduce((sum, product) => sum + product.cartCount, 0);
-      const total_Amoun = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      const totalAmoun = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      localStorage.setItem('totalItems', JSON.stringify(totalItem));
       return {
         ...state,
         products,
         totalItems: totalItem,
+        totalAmount: totalAmoun,
         filteredProducts: sortValues(
           selectValues(state.searchValue, products),
           state.sortType,
         ),
       };
+    case 'removeFromCart': {
+      const products = state.products.map((product) => {
+        if (product.id === action.payload.productId) {
+          return {
+            ...product,
+            cartCount: Math.min(product.cartCount - 1, 0),
+          };
+        }
+        return product;
+      });
+      const totalItems = products.reduce((sum, product) => sum + product.cartCount, 0);
+      const totalAmount = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      return {
+        ...state,
+        products,
+        totalItems,
+        totalAmount,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, products),
+          state.sortType,
+        ),
+      };
+    }
     default: {
       return state;
     }

@@ -13,7 +13,7 @@ export default function createApiService(api) {
         storeAPI.dispatch(actions.setProducts(products));
         timer = null;
       }, delay);
-    } else if (action.type === 'reset' && timer) {
+    } else {
       clearTimeout(timer);
       timer = null;
     }

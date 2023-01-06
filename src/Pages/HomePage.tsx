@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box, Container, Grid, GridItem, Flex,
 } from '@chakra-ui/react';
@@ -9,18 +9,15 @@ import FilterCard from 'src/Components/FilterCard';
 import RangeSliderByPrice from 'src/Components/RangeSliderByPrice';
 import RangeSliderByStock from 'src/Components/RangeSliderByStock';
 import FilterCheckBoxComponent from 'src/Components/FilterCheckboxComponent';
-import { ProductListState } from 'src/Store';
+import type { ProductListState } from 'src/Store';
+import useStoreState from 'src/hooks/useStoreState';
 import * as actions from '../Actions';
 
-export default function HomePage({
-  state,
-  dispatch,
-}: {
-  state: ProductListState;
-  dispatch: (action) => void;
-}) {
+export default function HomePage() {
+  const [state, dispatch] = useStoreState();// вот так можно вызвать на каждой странице
+
   return (
-    <Layout totalItems={state.totalItems}>
+    <Layout>
       <Box>
         <Container maxW="6xl">
           <Grid
@@ -50,6 +47,11 @@ export default function HomePage({
                 handleAddToCart={
                   (productId: number) => {
                     dispatch(actions.addToCart(productId));
+                  }
+                }
+                handleRemoveFromCart={
+                  (productId: number) => {
+                    dispatch(actions.removeFromCart(productId));
                   }
                 }
               />

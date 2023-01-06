@@ -2,10 +2,11 @@ import React from 'react';
 import {
   Heading, CardBody, Image, Stack, Card, Text, Divider, CardFooter, ButtonGroup, Button,
 } from '@chakra-ui/react';
+import { numFormat } from 'src/utils/numFormat';
 import type { Product } from '../Types/ProductType';
 
-export default function CardComponent({ product, handleAddToCart }: {
-  product: Product, handleAddToCart: Function
+export default function CardComponent({ product, handleAddToCart, handleRemoveFromCart }: {
+  product: Product, handleAddToCart: Function, handleRemoveFromCart: Function
 }) {
   const {
     title, description, price, thumbnail, cartCount,
@@ -29,8 +30,7 @@ export default function CardComponent({ product, handleAddToCart }: {
             {description}
           </Text>
           <Text color="blue.600" fontSize="md">
-            $
-            {price}
+            {numFormat.format(price)}
           </Text>
         </Stack>
       </CardBody>
@@ -50,6 +50,7 @@ export default function CardComponent({ product, handleAddToCart }: {
             variant="outline"
             colorScheme="red"
             size="sm"
+            onClick={() => handleRemoveFromCart(product.id)}
             hidden={cartCount === 0}
           >
             Remove from cart
