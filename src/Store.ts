@@ -7,6 +7,8 @@ import selectValues from './utils/selectValues';
 import sortValues from './utils/sortValues';
 import { SortUnionType } from './Actions';
 
+export type StoreType = ReturnType<typeof initProductListStore>;
+
 export default function initProductListStore(options: { api: typeof Api }) {
   const { api } = options;
   return createStore(
@@ -23,7 +25,7 @@ function createLogService() {
   };
 }
 
-type ProductListState =
+export type ProductListState =
   {
     products: Product[];
     filteredProducts: Product[]
@@ -31,6 +33,7 @@ type ProductListState =
     searchValue: string;
     sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'
   };
+
   type ProductsAction =
   {
     type: 'setProducts',

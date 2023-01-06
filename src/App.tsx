@@ -5,12 +5,16 @@ import { Route, Router, Switch } from 'wouter';
 import HomePage from './Pages/HomePage';
 import CartPage from './Pages/CartPage';
 import NotFoundPage from './Pages/NotFoundPage';
+import useStore from './hooks/useStore';
+import { StoreType } from './Store';
 
-function App() {
+function App({ store }: { store: StoreType }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [state, dispatch] = useStore(store);
   return (
     <Router>
       <Switch>
-        <Route path="/" component={() => <HomePage />} />
+        <Route path="/" component={() => <HomePage state={state} dispatch={dispatch} />} />
         <Route path="/cart" component={() => <CartPage />} />
         <Route path="/:rest*" component={() => <NotFoundPage />} />
       </Switch>

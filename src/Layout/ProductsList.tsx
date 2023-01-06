@@ -6,9 +6,10 @@ import type { Product } from 'src/Types/ProductType';
 import SearchComponent from 'src/Components/SearchComponent';
 import SelectSortComponent from 'src/Components/SelectSortComponent';
 import ProductCard from '../Components/CardComponent';
+import * as actions from '../Actions';
 
 export default function ProductsList({
-  products, handleSearch, handleSort, handleAddToCart,
+  products, handleSearch, handleSort, handleAddToCart, state, dispatch,
 }) {
   return (
     <Box>
@@ -19,20 +20,19 @@ export default function ProductsList({
           </Box>
           <Box>
             <Heading as="h3" size="md" fontWeight="medium">
-
-              {' '}
-              {products.length === 0
-                ? (<Text color="blue.400">Loading...</Text>)
-                : (
-                  <Text animation="ease-in">
-                    Found:
-                    {products.length}
-                  </Text>
-                )}
+              <Text animation="ease-in">
+                Found:
+                {products.length}
+              </Text>
             </Heading>
           </Box>
           <Box>
-            <SearchComponent handleSearch={handleSearch} />
+            <SearchComponent
+              handleSearch={(searchValue: string) => {
+                dispatch(actions.findItemFromList(searchValue));
+              }}
+              searchValue={state.searchValue}
+            />
           </Box>
         </Flex>
       </Box>

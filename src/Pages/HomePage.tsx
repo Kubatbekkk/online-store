@@ -9,20 +9,16 @@ import FilterCard from 'src/Components/FilterCard';
 import RangeSliderByPrice from 'src/Components/RangeSliderByPrice';
 import RangeSliderByStock from 'src/Components/RangeSliderByStock';
 import FilterCheckBoxComponent from 'src/Components/FilterCheckboxComponent';
-import initProductListStore from '../Store';
+import { ProductListState } from 'src/Store';
 import * as actions from '../Actions';
-import { Api } from '../Api';
 
-const store = initProductListStore({ api: Api });
-
-export default function HomePage() {
-  const [state, setState] = useState(store.getState());
-  useEffect(() => {
-    const action = actions.init();
-    store.dispatch(action);
-    setState(store.getState());
-    return store.subscribe(() => setState(store.getState()));
-  }, []);
+export default function HomePage({
+  state,
+  dispatch,
+}: {
+  state: ProductListState;
+  dispatch: (action) => void;
+}) {
   return (
     <Layout totalItems={state.totalItems}>
       <Box>
@@ -43,18 +39,17 @@ export default function HomePage() {
             </GridItem>
             <GridItem colSpan={3} w="100%">
               <ProductsList
+                state={state}
+                dispatch={dispatch}
                 products={state.filteredProducts}
-                handleSearch={(searchValue: string) => {
-                  store.dispatch(actions.findItemFromList(searchValue));
-                }}
                 handleSort={
                   (sortType: actions.SortUnionType) => {
-                    store.dispatch((actions.sortProducts(sortType)));
+                    dispatch((actions.sortProducts(sortType)));
                   }
                 }
                 handleAddToCart={
                   (productId: number) => {
-                    store.dispatch(actions.addToCart(productId));
+                    dispatch(actions.addToCart(productId));
                   }
                 }
               />
