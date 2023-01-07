@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box, Container, Grid, GridItem, Flex,
 } from '@chakra-ui/react';
@@ -9,20 +9,13 @@ import FilterCard from 'src/Components/FilterCard';
 import RangeSliderByPrice from 'src/Components/RangeSliderByPrice';
 import RangeSliderByStock from 'src/Components/RangeSliderByStock';
 import FilterCheckBoxComponent from 'src/Components/FilterCheckboxComponent';
-import initProductListStore from '../Store';
+import type { ProductListState } from 'src/Store';
+import useStoreState from 'src/hooks/useStoreState';
 import * as actions from '../Actions';
-import { Api } from '../Api';
-
-const store = initProductListStore({ api: Api });
 
 export default function HomePage() {
-  const [state, setState] = useState(store.getState());
-  useEffect(() => {
-    const action = actions.init();
-    store.dispatch(action);
-    setState(store.getState());
-    return store.subscribe(() => setState(store.getState()));
-  }, []);
+  const [state, dispatch] = useStoreState();// вот так можно вызвать на каждой странице
+
   return (
     <Layout>
       <Box>
@@ -42,7 +35,26 @@ export default function HomePage() {
               </FilterSidebar>
             </GridItem>
             <GridItem colSpan={3} w="100%">
-              <ProductsList label="Found: " products={state.products} />
+              <ProductsList
+                state={state}
+                dispatch={dispatch}
+                products={state.filteredProducts}
+                handleSort={
+                  (sortType: actions.SortUnionType) => {
+                    dispatch((actions.sortProducts(sortType)));
+                  }
+                }
+                handleAddToCart={
+                  (productId: number) => {
+                    dispatch(actions.addToCart(productId));
+                  }
+                }
+                handleRemoveFromCart={
+                  (productId: number) => {
+                    dispatch(actions.removeFromCart(productId));
+                  }
+                }
+              />
             </GridItem>
           </Grid>
         </Container>

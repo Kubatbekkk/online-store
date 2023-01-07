@@ -1,45 +1,176 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { applyMiddleware, createStore } from 'redux';
 import type { Api } from './Api';
 import type { Product } from './Types/ProductType';
 import createApiService from './ApiService';
+import selectValues from './utils/selectValues';
+import sortValues from './utils/sortValues';
+import { SortUnionType } from './Actions';
+
+export type StoreType = ReturnType<typeof initProductListStore>;
 
 export default function initProductListStore(options: { api: typeof Api }) {
   const { api } = options;
-  return createStore(productListReducer, applyMiddleware(createLogService(), createApiService(api)));
+  return createStore(
+    productListReducer,
+    applyMiddleware(createLogService(), createApiService(api)),
+  );
 }
 
 function createLogService() {
+  // eslint-disable-next-line max-len
   return () => (next: (arg0: { type: string; payload: {}; }) => any) => (action: { type: string, payload: {} }): typeof next => {
     console.log('action: ', action);
     return next(action);
   };
 }
-type ProductListState = {
-  products: Product[];
-  totalItems: number
-};
-type ProductsAction =
-    {
-      type: 'setProducts',
-      payload: {
-        products: Product[],
-      };
-    } | { type: 'init' };
 
+export type ProductListState =
+  {
+    products: Product[];
+    filteredProducts: Product[]
+    totalItems: number;
+    totalAmount: number;
+    searchValue: string;
+    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'
+  };
+
+  type ProductsAction =
+  {
+    type: 'setProducts',
+    payload: {
+      products: Product[],
+    };
+  } |
+  { type: 'findItemFromList';
+    payload: {
+      searchValue: string
+    }
+  } | { type: 'init' }
+  | {
+    type: 'addToCart',
+    payload: {
+      productId: number
+    }
+  }
+  | {
+    type: 'removeFromCart',
+    payload: {
+      productId: number
+    }
+  }
+  | {
+    type: 'sortProducts';
+    payload: {
+      sortType: SortUnionType;
+    }
+
+  };
+// const getLocalStorage = () => {
+//   const totalItems = localStorage.getItem('totalItems');
+//   if (totalItems) {
+//     return JSON.parse(localStorage.getItem('totalItems'));
+//   }
+//   return 0;
+// };
+
+// eslint-disable-next-line @typescript-eslint/default-param-last
 function productListReducer(state: ProductListState = {
   products: [],
+  filteredProducts: [],
   totalItems: 0,
+  totalAmount: 0,
+  searchValue: '',
+  sortType: 'lowest',
 }, action: ProductsAction): ProductListState {
   switch (action.type) {
     case 'init':
       return {
-        ...state,
+        products: [],
+        filteredProducts: [],
+        totalItems: 0,
+        totalAmount: 0,
+        searchValue: '',
+        sortType: 'lowest',
       };
-    case 'setProducts':
+    case 'setProducts': {
       return {
         ...state,
         products: [...action.payload.products],
+        filteredProducts:
+          sortValues(selectValues(state.searchValue, [...action.payload.products]), state.sortType),
+        totalItems: 0,
       };
+    }
+    case 'findItemFromList': {
+      const { searchValue } = action.payload;
+      return {
+        ...state,
+        filteredProducts: sortValues(
+          selectValues(searchValue, state.products),
+          state.sortType,
+        ),
+        searchValue,
+      };
+    }
+    case 'sortProducts':
+      return {
+        ...state,
+        sortType: action.payload.sortType,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, state.products),
+          action.payload.sortType,
+        ),
+      };
+    case 'addToCart':
+      // eslint-disable-next-line no-case-declarations
+      const products = state.products.map((product) => {
+        if (product.id === action.payload.productId) {
+          return {
+            ...product,
+            cartCount: Math.min(product.cartCount + 1, 1),
+          };
+        }
+        return product;
+      });
+
+      // eslint-disable-next-line no-case-declarations
+      const totalItem = products.reduce((sum, product) => sum + product.cartCount, 0);
+      const totalAmoun = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      localStorage.setItem('totalItems', JSON.stringify(totalItem));
+      return {
+        ...state,
+        products,
+        totalItems: totalItem,
+        totalAmount: totalAmoun,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, products),
+          state.sortType,
+        ),
+      };
+    case 'removeFromCart': {
+      const products = state.products.map((product) => {
+        if (product.id === action.payload.productId) {
+          return {
+            ...product,
+            cartCount: Math.min(product.cartCount - 1, 0),
+          };
+        }
+        return product;
+      });
+      const totalItems = products.reduce((sum, product) => sum + product.cartCount, 0);
+      const totalAmount = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      return {
+        ...state,
+        products,
+        totalItems,
+        totalAmount,
+        filteredProducts: sortValues(
+          selectValues(state.searchValue, products),
+          state.sortType,
+        ),
+      };
+    }
     default: {
       return state;
     }

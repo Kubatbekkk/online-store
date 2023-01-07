@@ -1,18 +1,16 @@
 import { Stack, Checkbox } from '@chakra-ui/react';
 import React from 'react';
+import useStoreState from 'src/hooks/useStoreState';
 
 export default function FilterCheckBoxComponent() {
+  const [state, dispatch] = useStoreState();
+  const { filteredProducts } = state;
+  const categories = [...new Set(filteredProducts.map((product) => product.category))];
   return (
     <Stack>
-      <Checkbox>Smartphones</Checkbox>
-      <Checkbox>Laptops</Checkbox>
-      <Checkbox>Fragrances</Checkbox>
-      <Checkbox>Skincare</Checkbox>
-      <Checkbox>Groceries</Checkbox>
-      <Checkbox>Tops</Checkbox>
-      <Checkbox isDisabled defaultChecked>
-        Checkbox
-      </Checkbox>
+      {
+       categories.map((category, index) => <Checkbox key={index + 1}>{category}</Checkbox>)
+      }
     </Stack>
   );
 }

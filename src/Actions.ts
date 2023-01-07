@@ -7,6 +7,44 @@ type SetProductsAction = {
   }
 };
 
+type FindItemFromListAction = {
+  type: 'findItemFromList',
+  payload: {
+    searchValue: string
+  }
+};
+
+export type SortUnionType = 'lowest' | 'highest' | 'nameA' | 'nameZ';
+
+export type SortProductsAction = {
+  type: 'sortProducts';
+  payload: {
+    sortType: SortUnionType;
+  };
+};
+
+type AddToCartAction = {
+  type: 'addToCart';
+  payload: {
+    productId: number;
+  };
+};
+type RemoveFromCartAction = {
+  type: 'removeFromCart';
+  payload: {
+    productId: number;
+  };
+};
+
+export function removeFromCart(productId: number): RemoveFromCartAction {
+  return {
+    type: 'removeFromCart',
+    payload: {
+      productId,
+    },
+  };
+}
+
 export function init(): { type: 'init' } {
   return {
     type: 'init',
@@ -18,6 +56,32 @@ export function setProducts(products: Product[]): SetProductsAction {
     type: 'setProducts',
     payload: {
       products,
+    },
+  };
+}
+
+export function findItemFromList(searchValue: string): FindItemFromListAction {
+  return {
+    type: 'findItemFromList',
+    payload: {
+      searchValue,
+    },
+  };
+}
+export function sortProducts(sortType: SortUnionType): SortProductsAction {
+  return {
+    type: 'sortProducts',
+    payload: {
+      sortType,
+    },
+  };
+}
+
+export function addToCart(productId: number): AddToCartAction {
+  return {
+    type: 'addToCart',
+    payload: {
+      productId,
     },
   };
 }
