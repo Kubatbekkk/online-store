@@ -4,6 +4,7 @@ import './style.css';
 import { Route, Router, Switch } from 'wouter';
 import HomePage from './Pages/HomePage';
 import CartPage from './Pages/CartPage';
+import ProductPage from './Pages/ProductPage';
 import NotFoundPage from './Pages/NotFoundPage';
 import useStore from './hooks/useStoreState';
 import { StoreType } from './Store';
@@ -18,6 +19,7 @@ function App({ store }: { store: StoreType }) {
         <Switch>
           <Route path="/" component={HomePage} />
           <Route path="/cart" component={CartPage} />
+          <Route path="/product/:id" component={ProductPage} />
           <Route path="/:rest*" component={NotFoundPage} />
         </Switch>
       </Router>
