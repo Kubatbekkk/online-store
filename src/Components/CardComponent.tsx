@@ -3,7 +3,7 @@ import {
   Heading, CardBody, Image, Stack, Card, Text, Divider, CardFooter, ButtonGroup, Button,
 } from '@chakra-ui/react';
 import { numFormat } from 'src/utils/numFormat';
-import type { Product } from '../Types/ProductType';
+import { Product } from 'src/Types/ProductType';
 
 export default function CardComponent({ product, handleAddToCart, handleRemoveFromCart }: {
   product: Product, handleAddToCart: Function, handleRemoveFromCart: Function

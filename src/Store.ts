@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { applyMiddleware, createStore } from 'redux';
 import type { Api } from './Api';
@@ -6,6 +7,9 @@ import createApiService from './ApiService';
 import selectValues from './utils/selectValues';
 import sortValues from './utils/sortValues';
 import { SortUnionType } from './Actions';
+import sortByCategory from './utils/sortByCategory';
+import * as actions from './Actions';
+import sortByBrand from './utils/sortByBrand';
 
 export type StoreType = ReturnType<typeof initProductListStore>;
 
@@ -32,7 +36,9 @@ export type ProductListState =
     totalItems: number;
     totalAmount: number;
     searchValue: string;
-    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ'
+    sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
+    categoryList: string[] | [];
+    brandList: string[] | [];
   };
 
   type ProductsAction =
@@ -65,7 +71,8 @@ export type ProductListState =
       sortType: SortUnionType;
     }
 
-  };
+  }
+  | actions.FilterCategoryCheckBoxAction | actions.FilterBrandCheckBoxAction;
 // const getLocalStorage = () => {
 //   const totalItems = localStorage.getItem('totalItems');
 //   if (totalItems) {
@@ -82,6 +89,8 @@ function productListReducer(state: ProductListState = {
   totalAmount: 0,
   searchValue: '',
   sortType: 'lowest',
+  categoryList: [],
+  brandList: [],
 }, action: ProductsAction): ProductListState {
   switch (action.type) {
     case 'init':
@@ -92,6 +101,8 @@ function productListReducer(state: ProductListState = {
         totalAmount: 0,
         searchValue: '',
         sortType: 'lowest',
+        categoryList: [],
+        brandList: [],
       };
     case 'setProducts': {
       return {
@@ -104,12 +115,13 @@ function productListReducer(state: ProductListState = {
     }
     case 'findItemFromList': {
       const { searchValue } = action.payload;
+
       return {
         ...state,
-        filteredProducts: sortValues(
+        filteredProducts: sortByCategory(sortByBrand(sortValues(
           selectValues(searchValue, state.products),
           state.sortType,
-        ),
+        ), state.brandList), state.categoryList),
         searchValue,
       };
     }
@@ -117,13 +129,12 @@ function productListReducer(state: ProductListState = {
       return {
         ...state,
         sortType: action.payload.sortType,
-        filteredProducts: sortValues(
+        filteredProducts: sortByCategory(sortByBrand(sortValues(
           selectValues(state.searchValue, state.products),
           action.payload.sortType,
-        ),
+        ), state.brandList), state.categoryList),
       };
-    case 'addToCart':
-      // eslint-disable-next-line no-case-declarations
+    case 'addToCart': {
       const products = state.products.map((product) => {
         if (product.id === action.payload.productId) {
           return {
@@ -134,20 +145,19 @@ function productListReducer(state: ProductListState = {
         return product;
       });
 
-      // eslint-disable-next-line no-case-declarations
-      const totalItem = products.reduce((sum, product) => sum + product.cartCount, 0);
-      const totalAmoun = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
-      localStorage.setItem('totalItems', JSON.stringify(totalItem));
+      const totalItems = products.reduce((sum, product) => sum + product.cartCount, 0);
+      const totalAmount = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
       return {
         ...state,
         products,
-        totalItems: totalItem,
-        totalAmount: totalAmoun,
-        filteredProducts: sortValues(
+        totalItems,
+        totalAmount,
+        filteredProducts: sortByCategory(sortByBrand(sortValues(
           selectValues(state.searchValue, products),
           state.sortType,
-        ),
+        ), state.brandList), state.categoryList),
       };
+    }
     case 'removeFromCart': {
       const products = state.products.map((product) => {
         if (product.id === action.payload.productId) {
@@ -165,10 +175,33 @@ function productListReducer(state: ProductListState = {
         products,
         totalItems,
         totalAmount,
-        filteredProducts: sortValues(
+        filteredProducts: sortByCategory(sortByBrand(sortValues(
           selectValues(state.searchValue, products),
           state.sortType,
-        ),
+        ), state.brandList), state.categoryList),
+      };
+    }
+    case 'filterCategoryCheckBox': {
+      return {
+        ...state,
+        filteredProducts: sortByCategory(sortByBrand(
+          sortValues(
+            selectValues(state.searchValue, state.products),
+            state.sortType,
+          ),
+          state.brandList,
+        ), action.payload.categoryList),
+        categoryList: action.payload.categoryList,
+      };
+    }
+    case 'filterBrandCheckBox': {
+      return {
+        ...state,
+        filteredProducts: sortByCategory(sortByBrand(sortValues(
+          selectValues(state.searchValue, state.products),
+          state.sortType,
+        ), action.payload.brandList), state.categoryList),
+        brandList: action.payload.brandList,
       };
     }
     default: {

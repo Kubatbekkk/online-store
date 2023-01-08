@@ -6,7 +6,15 @@ export default function FilterSidebar({ children }: { children: ReactNode }) {
     <Box>
       <HStack justifyContent="space-between" my={3}>
         <Button colorScheme="red" variant="outline" size="sm" letterSpacing={2}>Reset Filters</Button>
-        <Button colorScheme="cyan" variant="outline" size="sm" letterSpacing={2}>Copy Link</Button>
+        <Button
+          colorScheme="cyan"
+          variant="outline"
+          size="sm"
+          letterSpacing={2}
+          onClick={() => { navigator.clipboard.writeText(window.location.toString()); }}
+        >
+          Copy Link
+        </Button>
       </HStack>
       <section>
         {children}

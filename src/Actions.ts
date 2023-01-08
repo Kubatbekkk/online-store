@@ -35,6 +35,34 @@ type RemoveFromCartAction = {
     productId: number;
   };
 };
+export type FilterCategoryCheckBoxAction = {
+  type: 'filterCategoryCheckBox';
+  payload: {
+    categoryList: string[] | []
+  }
+};
+export type FilterBrandCheckBoxAction = {
+  type: 'filterBrandCheckBox';
+  payload: {
+    brandList: string[] | []
+  }
+};
+export function filterCategoryCheckBox(categoryList: string[] | []): FilterCategoryCheckBoxAction {
+  return {
+    type: 'filterCategoryCheckBox',
+    payload: {
+      categoryList,
+    },
+  };
+}
+export function filterBrandCheckBox(brandList: string[] | []): FilterBrandCheckBoxAction {
+  return {
+    type: 'filterBrandCheckBox',
+    payload: {
+      brandList,
+    },
+  };
+}
 
 export function removeFromCart(productId: number): RemoveFromCartAction {
   return {

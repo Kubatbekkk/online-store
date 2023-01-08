@@ -4,9 +4,24 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { ProductListState } from 'src/Store';
+import { useLocation } from 'wouter';
+import useStoreState from 'src/hooks/useStoreState';
 
-export default function SearchComponent({ handleSearch, searchValue }) {
+export default function SearchComponent({ handleSearch, searchValue }: {
+  handleSearch: Function, searchValue: string
+}) {
+  // const [state, dispatch] = useStoreState();
+  // const [location, setLocation] = useLocation();
+  // const url = new URL(document.location);
+  // if (url.searchParams.has('searchValue')) {
+  //   const temp = url.searchParams.get('searchValue');
+  //   setLocation(`/?search=${temp}`);
+  // } else if (state.searchValue) {
+  //   setLocation(`/?search=${searchValue}`);
+  //   url.searchParams.set('searchValue', location);
+  // } else if (location !== '' && !searchValue) {
+  //   setLocation('/');
+  // }
   return (
     <InputGroup>
       <InputLeftElement
@@ -21,7 +36,8 @@ export default function SearchComponent({ handleSearch, searchValue }) {
         size="sm"
         maxW={200}
         borderRadius={5}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch((e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
+
       />
     </InputGroup>
   );

@@ -12,6 +12,7 @@ export default function ProductsList({
   products, handleSort, handleAddToCart, state, dispatch, handleRemoveFromCart,
 }) {
   const { searchValue } = state;
+
   return (
     <Box>
       <Box py={3} textAlign="center">
