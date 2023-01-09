@@ -8,18 +8,6 @@ import { SearchIcon } from '@chakra-ui/icons';
 export default function SearchComponent({ handleSearch, searchValue }: {
   handleSearch: Function, searchValue: string
 }) {
-  // const [state, dispatch] = useStoreState();
-  // const [location, setLocation] = useLocation();
-  // const url = new URL(document.location);
-  // if (url.searchParams.has('searchValue')) {
-  //   const temp = url.searchParams.get('searchValue');
-  //   setLocation(`/?search=${temp}`);
-  // } else if (state.searchValue) {
-  //   setLocation(`/?search=${searchValue}`);
-  //   url.searchParams.set('searchValue', location);
-  // } else if (location !== '' && !searchValue) {
-  //   setLocation('/');
-  // }
   return (
     <InputGroup>
       <InputLeftElement
