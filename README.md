@@ -1,5 +1,4 @@
-### Setup React, TypeScript, Webpack, and Babel
 
-### online-store-draft
+### online-store
 
-Draft version of the RSSchool Online Store project
+
