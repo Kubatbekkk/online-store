@@ -12,8 +12,7 @@ export default function Cart({ totalItems }: { totalItems: number }) {
       <Badge bg={useColorModeValue('red.500', 'red.900')} h={7} w={7} borderRadius={50} zIndex={1}>
         <Text
           fontWeight="medium"
-          color="whiteAlpha.900
-        "
+          color="whiteAlpha.900"
           textAlign="center"
           fontSize={14}
           alignItems="center"

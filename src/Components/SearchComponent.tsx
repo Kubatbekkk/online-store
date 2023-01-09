@@ -4,8 +4,6 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { useLocation } from 'wouter';
-import useStoreState from 'src/hooks/useStoreState';
 
 export default function SearchComponent({ handleSearch, searchValue }: {
   handleSearch: Function, searchValue: string
@@ -37,7 +35,6 @@ export default function SearchComponent({ handleSearch, searchValue }: {
         maxW={200}
         borderRadius={5}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
-
       />
     </InputGroup>
   );

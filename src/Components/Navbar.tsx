@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box, Container, Flex, Heading, useColorModeValue, Link, Text,
 } from '@chakra-ui/react';
-// import { Link as WLink } from 'wouter';
 import { numFormat } from 'src/utils/numFormat';
 import Cart from './CartComponent';
 
@@ -25,7 +24,6 @@ export default function Navbar({ totalItems, totalAmount }: { totalItems: number
           <Link href="/cart" _hover={{ textDecoration: 'none' }}>
             <Cart totalItems={totalItems} />
           </Link>
-
         </Flex>
       </Container>
     </Box>

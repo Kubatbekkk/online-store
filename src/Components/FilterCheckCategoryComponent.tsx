@@ -1,35 +1,10 @@
 import { Stack, Checkbox } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import categories from 'src/data/categoryList';
 
 export default function FilterCheckBoxComponent({ checkCategory }: { checkCategory: Function }) {
   const [checked, setChecked] = useState([]);
-  const categories: { _id: number, name: string }[] = [
-    {
-      _id: 1,
-      name: 'smartphones',
-    },
-    {
-      _id: 2,
-      name: 'laptops',
-    },
-    {
-      _id: 3,
-      name: 'fragrances',
-    },
-    {
-      _id: 4,
-      name: 'skincare',
-    },
-    {
-      _id: 5,
-      name: 'groceries',
-    },
-    {
-      _id: 6,
-      name: 'home-decoration',
-    },
 
-  ];
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const ifCheckedList = [...checked];

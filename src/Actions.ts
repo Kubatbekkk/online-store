@@ -1,13 +1,13 @@
 import type { Product } from './Types/ProductType';
 
-type SetProductsAction = {
+export type SetProductsAction = {
   type: 'setProducts',
   payload: {
     products: Product[]
   }
 };
 
-type FindItemFromListAction = {
+export type FindItemFromListAction = {
   type: 'findItemFromList',
   payload: {
     searchValue: string
@@ -23,13 +23,13 @@ export type SortProductsAction = {
   };
 };
 
-type AddToCartAction = {
+export type AddToCartAction = {
   type: 'addToCart';
   payload: {
     productId: number;
   };
 };
-type RemoveFromCartAction = {
+export type RemoveFromCartAction = {
   type: 'removeFromCart';
   payload: {
     productId: number;
@@ -47,6 +47,40 @@ export type FilterBrandCheckBoxAction = {
     brandList: string[] | []
   }
 };
+export type FilterByPriceRangeAction = {
+  type: 'filterByPriceRange';
+  payload: {
+    min: number,
+    max: number
+  }
+};
+export type FilterByStockRangeAction = {
+  type: 'filterByStockRange';
+  payload: {
+    min: number,
+    max: number
+  }
+};
+
+export function filterByStockRange(min: number, max: number): FilterByStockRangeAction {
+  return {
+    type: 'filterByStockRange',
+    payload: {
+      min,
+      max,
+    },
+  };
+}
+
+export function filterByPriceRange(min: number, max: number): FilterByPriceRangeAction {
+  return {
+    type: 'filterByPriceRange',
+    payload: {
+      min,
+      max,
+    },
+  };
+}
 export function filterCategoryCheckBox(categoryList: string[] | []): FilterCategoryCheckBoxAction {
   return {
     type: 'filterCategoryCheckBox',

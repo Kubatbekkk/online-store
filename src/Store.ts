@@ -6,10 +6,11 @@ import type { Product } from './Types/ProductType';
 import createApiService from './ApiService';
 import selectValues from './utils/selectValues';
 import sortValues from './utils/sortValues';
-import { SortUnionType } from './Actions';
 import sortByCategory from './utils/sortByCategory';
 import * as actions from './Actions';
 import sortByBrand from './utils/sortByBrand';
+import filterByPriceRange from './utils/filterByPriceRange';
+import filterByStockRange from './utils/filterByStockRange';
 
 export type StoreType = ReturnType<typeof initProductListStore>;
 
@@ -29,6 +30,14 @@ function createLogService() {
   };
 }
 
+type Cart = Record<string, number>;
+const cart: Cart = {
+  // товар: количество
+  1: 1,
+  115: 30,
+  200: 1,
+};
+
 export type ProductListState =
   {
     products: Product[];
@@ -39,40 +48,35 @@ export type ProductListState =
     sortType: 'lowest' | 'highest' | 'nameA' | 'nameZ';
     categoryList: string[] | [];
     brandList: string[] | [];
+    priceRange: {
+      min: number,
+      max: number,
+    };
+    filteredPriceRange: {
+      min: number,
+      max: number
+    }
+    stockRange: {
+      min: number,
+      max: number,
+    };
+    filteredStockRange: {
+      min: number,
+      max: number
+    }
   };
 
   type ProductsAction =
-  {
-    type: 'setProducts',
-    payload: {
-      products: Product[],
-    };
-  } |
-  { type: 'findItemFromList';
-    payload: {
-      searchValue: string
-    }
-  } | { type: 'init' }
-  | {
-    type: 'addToCart',
-    payload: {
-      productId: number
-    }
-  }
-  | {
-    type: 'removeFromCart',
-    payload: {
-      productId: number
-    }
-  }
-  | {
-    type: 'sortProducts';
-    payload: {
-      sortType: SortUnionType;
-    }
-
-  }
-  | actions.FilterCategoryCheckBoxAction | actions.FilterBrandCheckBoxAction;
+   actions.FilterCategoryCheckBoxAction
+   | actions.FilterBrandCheckBoxAction
+   | actions.FilterByPriceRangeAction
+   | actions.FilterByStockRangeAction
+   | actions.FindItemFromListAction
+   | actions.RemoveFromCartAction
+   | actions.SortProductsAction
+   | actions.SetProductsAction
+   | actions.AddToCartAction
+   | { type: 'init' };
 // const getLocalStorage = () => {
 //   const totalItems = localStorage.getItem('totalItems');
 //   if (totalItems) {
@@ -91,6 +95,22 @@ function productListReducer(state: ProductListState = {
   sortType: 'lowest',
   categoryList: [],
   brandList: [],
+  priceRange: {
+    min: 0,
+    max: 1800,
+  },
+  filteredPriceRange: {
+    min: 0,
+    max: 1800,
+  },
+  stockRange: {
+    min: 0,
+    max: 150,
+  },
+  filteredStockRange: {
+    min: 0,
+    max: 150,
+  },
 }, action: ProductsAction): ProductListState {
   switch (action.type) {
     case 'init':
@@ -103,6 +123,22 @@ function productListReducer(state: ProductListState = {
         sortType: 'lowest',
         categoryList: [],
         brandList: [],
+        priceRange: {
+          min: 0,
+          max: 1800,
+        },
+        filteredPriceRange: {
+          min: 0,
+          max: 1800,
+        },
+        stockRange: {
+          min: 0,
+          max: 150,
+        },
+        filteredStockRange: {
+          min: 0,
+          max: 150,
+        },
       };
     case 'setProducts': {
       return {
@@ -115,13 +151,16 @@ function productListReducer(state: ProductListState = {
     }
     case 'findItemFromList': {
       const { searchValue } = action.payload;
-
       return {
         ...state,
-        filteredProducts: sortByCategory(sortByBrand(sortValues(
-          selectValues(searchValue, state.products),
-          state.sortType,
-        ), state.brandList), state.categoryList),
+        filteredProducts: filterByStockRange(
+          filterByPriceRange(sortByCategory(sortByBrand(sortValues(
+            selectValues(searchValue, state.products),
+            state.sortType,
+          ), state.brandList), state.categoryList), state.filteredPriceRange.min, state.filteredPriceRange.max),
+          state.filteredStockRange.min,
+          state.filteredStockRange.max,
+        ),
         searchValue,
       };
     }
@@ -129,10 +168,14 @@ function productListReducer(state: ProductListState = {
       return {
         ...state,
         sortType: action.payload.sortType,
-        filteredProducts: sortByCategory(sortByBrand(sortValues(
-          selectValues(state.searchValue, state.products),
-          action.payload.sortType,
-        ), state.brandList), state.categoryList),
+        filteredProducts: filterByPriceRange(
+          filterByStockRange(sortByCategory(sortByBrand(sortValues(
+            selectValues(state.searchValue, state.products),
+            action.payload.sortType,
+          ), state.brandList), state.categoryList), state.filteredStockRange.min, state.filteredStockRange.max),
+          state.filteredPriceRange.min,
+          state.filteredPriceRange.max,
+        ),
       };
     case 'addToCart': {
       const products = state.products.map((product) => {
@@ -152,10 +195,14 @@ function productListReducer(state: ProductListState = {
         products,
         totalItems,
         totalAmount,
-        filteredProducts: sortByCategory(sortByBrand(sortValues(
-          selectValues(state.searchValue, products),
-          state.sortType,
-        ), state.brandList), state.categoryList),
+        filteredProducts: filterByStockRange(
+          filterByPriceRange(sortByCategory(sortByBrand(sortValues(
+            selectValues(state.searchValue, products),
+            state.sortType,
+          ), state.brandList), state.categoryList), state.filteredPriceRange.min, state.filteredPriceRange.max),
+          state.filteredStockRange.min,
+          state.filteredStockRange.max,
+        ),
       };
     }
     case 'removeFromCart': {
@@ -175,33 +222,78 @@ function productListReducer(state: ProductListState = {
         products,
         totalItems,
         totalAmount,
-        filteredProducts: sortByCategory(sortByBrand(sortValues(
-          selectValues(state.searchValue, products),
-          state.sortType,
-        ), state.brandList), state.categoryList),
+        filteredProducts: filterByStockRange(
+          filterByPriceRange(sortByCategory(sortByBrand(sortValues(
+            selectValues(state.searchValue, products),
+            state.sortType,
+          ), state.brandList), state.categoryList), state.filteredPriceRange.min, state.filteredPriceRange.max),
+          state.filteredStockRange.min,
+          state.filteredStockRange.max,
+        ),
       };
     }
     case 'filterCategoryCheckBox': {
       return {
         ...state,
-        filteredProducts: sortByCategory(sortByBrand(
-          sortValues(
-            selectValues(state.searchValue, state.products),
-            state.sortType,
+        filteredProducts:
+          filterByPriceRange(
+            filterByStockRange(sortByCategory(sortByBrand(
+              sortValues(
+                selectValues(state.searchValue, state.products),
+                state.sortType,
+              ),
+              state.brandList,
+            ), action.payload.categoryList), state.filteredStockRange.min, state.filteredStockRange.max),
+            state.filteredPriceRange.min,
+            state.filteredPriceRange.max,
           ),
-          state.brandList,
-        ), action.payload.categoryList),
         categoryList: action.payload.categoryList,
       };
     }
     case 'filterBrandCheckBox': {
       return {
         ...state,
-        filteredProducts: sortByCategory(sortByBrand(sortValues(
-          selectValues(state.searchValue, state.products),
-          state.sortType,
-        ), action.payload.brandList), state.categoryList),
+        filteredProducts:
+          filterByPriceRange(
+            filterByStockRange(sortByCategory(sortByBrand(sortValues(
+              selectValues(state.searchValue, state.products),
+              state.sortType,
+            ), action.payload.brandList), state.categoryList), state.filteredStockRange.min, state.filteredStockRange.max),
+            state.filteredPriceRange.min,
+            state.filteredPriceRange.max,
+          ),
         brandList: action.payload.brandList,
+      };
+    }
+    case 'filterByPriceRange': {
+      return {
+        ...state,
+        filteredProducts:
+          filterByPriceRange(filterByStockRange(sortByCategory(sortByBrand(sortValues(
+            selectValues(state.searchValue, state.products),
+            state.sortType,
+          ), state.brandList), state.categoryList), state.filteredStockRange.min, state.filteredStockRange.max), action.payload.min, action.payload.max),
+        filteredPriceRange: {
+          min: action.payload.min,
+          max: action.payload.max,
+        },
+      };
+    }
+    case 'filterByStockRange': {
+      return {
+        ...state,
+        filteredProducts: filterByPriceRange(filterByStockRange(
+          sortByCategory(sortByBrand(sortValues(
+            selectValues(state.searchValue, state.products),
+            state.sortType,
+          ), state.brandList), state.categoryList),
+          action.payload.min,
+          action.payload.max,
+        ), state.priceRange.min, state.priceRange.max),
+        filteredStockRange: {
+          min: action.payload.min,
+          max: action.payload.max,
+        },
       };
     }
     default: {

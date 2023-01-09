@@ -38,11 +38,10 @@ function Logo() {
 function SocialButton({
   children,
   label,
-  href,
 }: {
   children: ReactNode;
   label: string;
-  href: string;
+
 }) {
   return (
     <chakra.button
@@ -51,8 +50,6 @@ function SocialButton({
       w={8}
       h={8}
       cursor="pointer"
-      as="a"
-      href={href}
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
@@ -88,7 +85,7 @@ export default function Footer() {
         <Stack direction="row" spacing={6}>
           <Link href="https://github.com/Kubatbekkk" isExternal color="blackAlpha.700" _hover={{ color: 'blue.500', textDecoration: 'none' }}>
             <Flex gap={2} alignItems="center">
-              <SocialButton label="GitHub" href="https://github.com/Kubatbekkk">
+              <SocialButton label="GitHub">
                 <FaGithub />
               </SocialButton>
               @Kubatbekkk
@@ -97,7 +94,7 @@ export default function Footer() {
           <Link href="https://github.com/Kubatbekkk" isExternal color="blackAlpha.700" _hover={{ color: 'blue.500', textDecoration: 'none' }}>
             <Flex gap={2}>
 
-              <SocialButton label="GitHub" href="https://github.com/flopinski">
+              <SocialButton label="GitHub">
                 <FaGithub />
               </SocialButton>
               <Text>@flopinski</Text>

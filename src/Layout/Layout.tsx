@@ -4,7 +4,7 @@ import Footer from 'src/Components/FooterComponent';
 import Navbar from 'src/Components/Navbar';
 import useStoreState from 'src/hooks/useStoreState';
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const [state] = useStoreState();
   return (
     <div className="layout-section">

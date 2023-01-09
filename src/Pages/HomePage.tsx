@@ -40,8 +40,24 @@ export default function HomePage() {
                     }}
                     />
                   </FilterCard>
-                  {/* <FilterCard title="Price"><RangeSliderByPrice /></FilterCard>
-                  <FilterCard title="Stock"><RangeSliderByStock /></FilterCard> */}
+                  <FilterCard title="Price">
+                    <RangeSliderByPrice
+                      handlePriceRangeFilter={(min: number, max: number) => {
+                        dispatch(actions.filterByPriceRange(min, max));
+                      }}
+                      priceRange={state.priceRange}
+                      filteredPriceRange={state.filteredPriceRange}
+                    />
+                  </FilterCard>
+                  <FilterCard title="Stock">
+                    <RangeSliderByStock
+                      handleStockRangeFilter={(min: number, max: number) => {
+                        dispatch(actions.filterByStockRange(min, max));
+                      }}
+                      stockRange={state.stockRange}
+                      filteredStockRange={state.filteredStockRange}
+                    />
+                  </FilterCard>
                 </Flex>
               </FilterSidebar>
             </GridItem>
