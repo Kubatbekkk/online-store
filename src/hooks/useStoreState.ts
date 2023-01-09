@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import * as actions from '../Actions';
 import type { ProductListState } from '../Store';
 import { useStore } from './useStore';
 
