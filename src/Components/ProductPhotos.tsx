@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import { Box, Image, Flex, background } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Image, Flex } from '@chakra-ui/react';
 import type { Product } from 'src/Types/ProductType';
 
 export default function ProductPhotos(product: Product) {
-  // const handleTab = (index: number) => alert(index);
-  const [image, handleTab] = useState(0);
-  // product = this.state;
+  const [imageIndex, setImageIndex] = React.useState(0);
+  const images = product.images;
+
   return (
     <Flex>
       <Box w='25%'>
-        {product.images.map((img, index) => (
+        {images.map((img, index) => (
           <Image
-            {...handleTab}
             w='80%'
             maxH='60px'
             objectFit='contain'
@@ -21,7 +20,7 @@ export default function ProductPhotos(product: Product) {
             src={img}
             alt='thumbnail of the product'
             key={index}
-            onClick={() => {}}
+            onClick={() => setImageIndex(index)}
           ></Image>
         ))}
       </Box>
@@ -33,7 +32,7 @@ export default function ProductPhotos(product: Product) {
             maxW='40vh'
             w='auto'
             maxWidth='100%'
-            src={product.images[0]}
+            src={images[imageIndex]}
             alt='Main photo of the product'
           ></Image>
         </Flex>
