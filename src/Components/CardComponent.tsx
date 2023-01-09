@@ -41,7 +41,7 @@ export default function CardComponent({ product, handleAddToCart, handleRemoveFr
             variant="solid"
             colorScheme="blue"
             size="sm"
-            onClick={() => handleAddToCart(product.id)}
+            onClick={() => handleAddToCart(1)}
             hidden={cartCount !== 0}
           >
             Add to cart
