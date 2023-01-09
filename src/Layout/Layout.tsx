@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Footer from 'src/Components/FooterComponent';
-
 import Navbar from 'src/Components/Navbar';
 import useStoreState from 'src/hooks/useStoreState';
 
