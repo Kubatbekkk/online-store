@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   Input,
@@ -28,6 +28,13 @@ export default function NumberInput() {
         break;
     }
   };
+  // useEffect(() => {
+  //   if (inputError) {
+  //     setFormValid(false);
+  //   } else {
+  //     setFormValid(true);
+  //   }
+  // }, [inputError]);
 
   return (
     <FormControl isRequired mt={3}>

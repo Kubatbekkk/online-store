@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Input } from '@chakra-ui/react';
 
@@ -27,6 +27,13 @@ export default function DeliveryAddressInput() {
     }
   };
 
+  // useEffect(() => {
+  //   if (inputError) {
+  //     setFormValid(false);
+  //   } else {
+  //     setFormValid(true);
+  //   }
+  // }, [inputError]);
   return (
     <FormControl mt={3} isRequired>
       <Input

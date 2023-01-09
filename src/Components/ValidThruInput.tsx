@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Input } from '@chakra-ui/react';
 
@@ -14,9 +14,18 @@ export default function ValidThruInput() {
   const [inputError, setInputError] = useState(false);
 
   const inputHandler = (e) => {
-    setInput(e.target.value);
+    if (!inputDirty && e.target.value.length === 5) {
+      setInputDirty(true);
+    }
+    const { value } = e.target;
+    if (value.length === 2 && !value.includes('/')) {
+      setInput(value + '/');
+    } else {
+      setInput(value);
+    }
+
     const regExp = /^(?:[0-1][1-2])\/(?:[0-2]\d|3[0-1])$/;
-    setInputError(!regExp.test(e.target.value));
+    setInputError(!regExp.test(value));
   };
 
   const blurHandler = (e) => {
@@ -26,35 +35,25 @@ export default function ValidThruInput() {
         break;
     }
   };
-  // вариант 1
-  const addSlash = (input) => {
-    let newStr = '';
-    let len = input.length;
-    for (let i = 0; i < len; i++) {
-      newStr = newStr + input[i];
-      while (newStr.length % 2 === 0) {
-        newStr = newStr + '/';
-      }
-    }
-    return newStr.substr(0, newStr.length - 1);
-  };
+  // useEffect(() => {
+  //   if (inputError) {
+  //     setFormValid(false);
+  //   } else {
+  //     setFormValid(true);
+  //   }
+  // }, [inputError]);
 
   return (
     <FormControl isRequired>
       <Input
         name='input'
-        onChange={() => (e) => {
+        onChange={(e) => {
           inputHandler(e);
-          addSlash(input);
-          // setInput(
-          //   input.length === 3 && !input.includes('/')
-          //     ? `${input.substring(0, 2)}/${input.substring(2)}`
-          //     : input
-          // );
         }}
         value={input}
         onBlur={(e) => blurHandler(e)}
         fontWeight='700'
+        maxLength={5}
         w='70%'
         height='1rem'
         placeholder='valid thru'

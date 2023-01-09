@@ -8,16 +8,18 @@ import {
   FormHelperText,
 } from '@chakra-ui/react';
 
-export default function EmailInput() {
+export default function CvvCodeInput() {
   const [input, setInput] = useState('');
   const [inputDirty, setInputDirty] = useState(false);
   const [inputError, setInputError] = useState(false);
 
   const inputHandler = (e) => {
+    if (!inputDirty && e.target.value.length === 3) {
+      setInputDirty(true);
+    }
     setInput(e.target.value);
-    const regExp =
-      /([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*@([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*[\.]([A-zА-я])+/;
-    setInputError(!regExp.test(String(e.target.value)));
+    const regExp = /^[0-9]{3}$/;
+    setInputError(!regExp.test(e.target.value));
   };
 
   const blurHandler = (e) => {
@@ -27,6 +29,7 @@ export default function EmailInput() {
         break;
     }
   };
+
   // useEffect(() => {
   //   if (inputError) {
   //     setFormValid(false);
@@ -36,22 +39,29 @@ export default function EmailInput() {
   // }, [inputError]);
 
   return (
-    <FormControl mt={3} mb={5} isRequired>
+    <FormControl isRequired mt={3}>
       <Input
         name='input'
         value={input}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Email address (required)'
+        placeholder='Code'
+        maxLength={3}
+        w='60%'
+        height='1rem'
+        background='white'
+        borderRadius='0.25rem'
+        textAlign='center'
+        ml='2%'
+        color='black'
+        fontWeight='700'
       />
       {inputDirty && inputError ? (
         <FormHelperText color='red'>
-          Please, enter a vaild email to process the order
+          Please, enter CVV code to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
-          Your email adress is required.
-        </FormErrorMessage>
+        <FormErrorMessage color='red'>CVV is required.</FormErrorMessage>
       )}
     </FormControl>
   );

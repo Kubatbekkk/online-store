@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import type { Product } from 'src/Types/ProductType';
 import { useDisclosure } from '@chakra-ui/react';
@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 
 export default function ProductBuy(product: Product) {
+  const [formValid, setFormValid] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Flex

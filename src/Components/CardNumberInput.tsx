@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Input } from '@chakra-ui/react';
 
@@ -8,13 +8,19 @@ import {
   FormHelperText,
 } from '@chakra-ui/react';
 
-export default function CardNumberInput() {
+export default function CardNumberInput(
+  { setFirstCardNumber },
+  // { setFormValid }
+) {
   const [input, setInput] = useState('');
   const [inputDirty, setInputDirty] = useState(false);
   const [inputError, setInputError] = useState(false);
 
   const inputHandler = (e) => {
+    setFirstCardNumber(e.target.value[0]);
+    // setFormValid(e.target);
     setInput(e.target.value);
+
     const regExp = new RegExp('^([0-9]{4}[s-]?){3}([0-9]{4})$');
     setInputError(!regExp.test(e.target.value));
   };
@@ -26,12 +32,21 @@ export default function CardNumberInput() {
         break;
     }
   };
+
+  // useEffect(() => {
+  //   if (inputError) {
+  //     setFormValid(false);
+  //   } else {
+  //     setFormValid(true);
+  //   }
+  // }, [inputError]);
   return (
     <FormControl isRequired>
       <Input
         name='input'
         value={input}
         type='number'
+        maxLength={16}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
         placeholder='Card number'

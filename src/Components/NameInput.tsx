@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Input } from '@chakra-ui/react';
 
@@ -15,9 +15,17 @@ export default function NameInput() {
 
   const inputHandler = (e) => {
     setInput(e.target.value);
+    // setFormValid(e.target.value);
     const regExp = /^[A-Za-zА-Яа-яЁё]{3,}(\s[A-Za-zА-Яа-яЁё]{3,}){1,}$/;
     setInputError(!regExp.test(String(e.target.value)));
   };
+  // useEffect(() => {
+  //   if (inputError) {
+  //     setFormValid(false);
+  //   } else {
+  //     setFormValid(true);
+  //   }
+  // }, [inputError]);
 
   const blurHandler = (e) => {
     switch (e.target.name) {
