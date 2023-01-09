@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Box,
   Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, Input, SimpleGrid, Stack, Text,
@@ -11,14 +12,14 @@ import {
   addToCart, init, removeFromCart, stop,
 } from 'src/Actions';
 
-function getProductById(state, productId) {
-  return state.products.find((product) => product.id === productId);
+function getProductById(state: { products: any[]; }, productId: number) {
+  return state.products.find((product: { id: any; }) => product.id === productId);
 }
 
-function getTotalItems(state) {
+function getTotalItems(state: { totalItems: any; }) {
   return state.totalItems;
 }
-function getTotalAmount(state) {
+function getTotalAmount(state: { totalAmount: any; }) {
   return state.totalAmount;
 }
 
@@ -52,8 +53,8 @@ export default function CartPage() {
                 key={productId}
                 product={getProductById(state, parseInt(productId, 10))}
                 index={index}
-                handleAddToCart={(cartCount) => { dispatch(addToCart(parseInt(productId), cartCount)); }}
-                handleRemoveFromCart={(cartCount) => { dispatch(removeFromCart(parseInt(productId), cartCount)); }}
+                handleAddToCart={(cartCount: number) => { dispatch(addToCart(parseInt(productId, 10), cartCount)); }}
+                handleRemoveFromCart={(cartCount: number) => { dispatch(removeFromCart(parseInt(productId, 10), cartCount)); }}
               />
             ))}
 
