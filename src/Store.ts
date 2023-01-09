@@ -11,6 +11,8 @@ import * as actions from './Actions';
 import sortByBrand from './utils/sortByBrand';
 import filterByPriceRange from './utils/filterByPriceRange';
 import filterByStockRange from './utils/filterByStockRange';
+import countInCartProduct from './utils/countIncartProduct';
+import createCartService from './Services/CartService';
 
 export type StoreType = ReturnType<typeof initProductListStore>;
 
@@ -18,7 +20,7 @@ export default function initProductListStore(options: { api: typeof Api }) {
   const { api } = options;
   return createStore(
     productListReducer,
-    applyMiddleware(createLogService(), createApiService(api)),
+    applyMiddleware(createLogService(), createApiService(api), createCartService()),
   );
 }
 
@@ -30,13 +32,31 @@ function createLogService() {
   };
 }
 
-type Cart = Record<string, number>;
-const cart: Cart = {
-  // товар: количество
-  1: 1,
-  115: 30,
-  200: 1,
+type Cart = Record<ProductId, number>;
+
+type ProductId = Product['id'];
+
+type NewState = {
+  productsById: Record<ProductId, Product>
+  products: ProductId[]
+  filteredProducts: ProductId[]
 };
+
+const state: NewState = {
+  productsById: {
+    1: {
+      id: 1,
+      title: 'Product',
+      description: 'fsjkjds',
+      price: 12,
+    },
+  },
+  filteredProducts: [1],
+};
+
+function getProductbyId(state: NewState, productId: ProductId) {
+  return state.products[productId];
+}
 
 export type ProductListState =
   {
@@ -63,7 +83,8 @@ export type ProductListState =
     filteredStockRange: {
       min: number,
       max: number
-    }
+    };
+    cart: Cart
   };
 
   type ProductsAction =
@@ -76,14 +97,8 @@ export type ProductListState =
    | actions.SortProductsAction
    | actions.SetProductsAction
    | actions.AddToCartAction
-   | { type: 'init' };
-// const getLocalStorage = () => {
-//   const totalItems = localStorage.getItem('totalItems');
-//   if (totalItems) {
-//     return JSON.parse(localStorage.getItem('totalItems'));
-//   }
-//   return 0;
-// };
+   | { type: 'init' }
+   | { type: 'cleanupCart' };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
 function productListReducer(state: ProductListState = {
@@ -110,6 +125,8 @@ function productListReducer(state: ProductListState = {
   filteredStockRange: {
     min: 0,
     max: 150,
+  },
+  cart: {
   },
 }, action: ProductsAction): ProductListState {
   switch (action.type) {
@@ -138,6 +155,8 @@ function productListReducer(state: ProductListState = {
         filteredStockRange: {
           min: 0,
           max: 150,
+        },
+        cart: {
         },
       };
     case 'setProducts': {
@@ -182,19 +201,26 @@ function productListReducer(state: ProductListState = {
         if (product.id === action.payload.productId) {
           return {
             ...product,
-            cartCount: Math.min(product.cartCount + 1, 1),
+            cartCount: Math.min(product.cartCount + action.payload.cartCount, product.stock),
           };
         }
         return product;
       });
-
-      const totalItems = products.reduce((sum, product) => sum + product.cartCount, 0);
-      const totalAmount = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      const product = products.find((product) => product.id === action.payload.productId)!;
+      const cart = { ...state.cart, [product.id]: product.cartCount };
+      const totalItems = Object.values(cart)
+        .reduce((sum, product) => sum + product, 0);
+      const totalAmount = Object.entries(cart)
+        .reduce((acc, [productId, cartCount]) => {
+          const prod = products
+            .find((product) => product.id === +productId)!;
+          return acc + (prod.price * cartCount);
+        }, 0);
       return {
         ...state,
-        products,
         totalItems,
         totalAmount,
+        products,
         filteredProducts: filterByStockRange(
           filterByPriceRange(sortByCategory(sortByBrand(sortValues(
             selectValues(state.searchValue, products),
@@ -203,6 +229,7 @@ function productListReducer(state: ProductListState = {
           state.filteredStockRange.min,
           state.filteredStockRange.max,
         ),
+        cart,
       };
     }
     case 'removeFromCart': {
@@ -210,13 +237,21 @@ function productListReducer(state: ProductListState = {
         if (product.id === action.payload.productId) {
           return {
             ...product,
-            cartCount: Math.min(product.cartCount - 1, 0),
+            cartCount: Math.max(product.cartCount - action.payload.cartCount, 0),
           };
         }
         return product;
       });
-      const totalItems = products.reduce((sum, product) => sum + product.cartCount, 0);
-      const totalAmount = products.reduce((sum, product) => sum + product.price * product.cartCount, 0);
+      const product = products.find((product) => product.id === action.payload.productId)!;
+      const cart = { ...state.cart, [product.id]: product.cartCount };
+      const totalItems = Object.values(cart)
+        .reduce((sum, product) => sum + product, 0);
+      const totalAmount = Object.entries(cart)
+        .reduce((acc, [productId, cartCount]) => {
+          const prod = products
+            .find((product) => product.id === +productId)!;
+          return acc + (prod.price * cartCount);
+        }, 0);
       return {
         ...state,
         products,
@@ -230,6 +265,21 @@ function productListReducer(state: ProductListState = {
           state.filteredStockRange.min,
           state.filteredStockRange.max,
         ),
+        cart,
+      };
+    }
+    case 'cleanupCart': {
+      const newCart = {};
+      const { cart } = state;
+      for (const productId of Object.keys(cart)) {
+        const cartCount = cart[productId];
+        if (cartCount > 0) {
+          newCart[productId] = cartCount;
+        }
+      }
+      return {
+        ...state,
+        cart: newCart,
       };
     }
     case 'filterCategoryCheckBox': {
@@ -296,6 +346,7 @@ function productListReducer(state: ProductListState = {
         },
       };
     }
+
     default: {
       return state;
     }
