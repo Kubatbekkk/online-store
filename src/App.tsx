@@ -5,7 +5,6 @@ import { Route, Router, Switch } from 'wouter';
 import HomePage from './Pages/HomePage';
 import CartPage from './Pages/CartPage';
 import NotFoundPage from './Pages/NotFoundPage';
-import useStore from './hooks/useStoreState';
 import { StoreType } from './Store';
 import { StoreProvider } from './contexts/StoreContext';
 

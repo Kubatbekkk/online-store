@@ -12,6 +12,7 @@ export default function ProductsList({
   products, handleSort, handleAddToCart, state, dispatch, handleRemoveFromCart,
 }) {
   const { searchValue } = state;
+
   return (
     <Box>
       <Box py={3} textAlign="center">
@@ -29,7 +30,7 @@ export default function ProductsList({
           </Box>
           <Box>
             <SearchComponent
-              handleSearch={(searchValue: string) => {
+              handleSearch={(searchValue) => {
                 dispatch(actions.findItemFromList(searchValue));
               }}
               searchValue={searchValue}
@@ -39,7 +40,14 @@ export default function ProductsList({
       </Box>
       <div>
         <Flex gap={6} flexWrap="wrap">
-          {products.map((product: Product) => <ProductCard key={product.id} product={product} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />)}
+          {products.map((product: Product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              handleAddToCart={(cartCount: number) => handleAddToCart(product.id, cartCount)}
+              handleRemoveFromCart={(cartCount: number) => handleRemoveFromCart(product.id, cartCount)}
+            />
+          ))}
         </Flex>
       </div>
     </Box>

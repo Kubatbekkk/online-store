@@ -7,10 +7,6 @@ export default function useStoreState() {
   const store = useStore();
   const [state, setState] = useState<ProductListState>(store.getState());
 
-  useEffect(() => {
-    store.dispatch(actions.init());
-    setState(store.getState());
-    return store.subscribe(() => setState(store.getState()));
-  }, [store]);
+  useEffect(() => store.subscribe(() => setState(store.getState())), [store]);
   return [state, store.dispatch];
 }

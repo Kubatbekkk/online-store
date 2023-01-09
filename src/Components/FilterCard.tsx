@@ -10,7 +10,7 @@ export default function FilterCard({ title, children }: { title: string, childre
         <Text size="xl">{title}</Text>
       </CardHeader>
       <Divider mt={0} />
-      <CardBody>
+      <CardBody overflowY="auto" maxH="226px">
         {children || 'CardBody'}
       </CardBody>
 

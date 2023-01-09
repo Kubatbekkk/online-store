@@ -4,9 +4,10 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { ProductListState } from 'src/Store';
 
-export default function SearchComponent({ handleSearch, searchValue }) {
+export default function SearchComponent({ handleSearch, searchValue }: {
+  handleSearch: Function, searchValue: string
+}) {
   return (
     <InputGroup>
       <InputLeftElement
@@ -21,7 +22,7 @@ export default function SearchComponent({ handleSearch, searchValue }) {
         size="sm"
         maxW={200}
         borderRadius={5}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch((e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
       />
     </InputGroup>
   );
