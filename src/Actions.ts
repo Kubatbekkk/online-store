@@ -27,12 +27,14 @@ export type AddToCartAction = {
   type: 'addToCart';
   payload: {
     productId: number;
+    cartCount: number
   };
 };
 export type RemoveFromCartAction = {
   type: 'removeFromCart';
   payload: {
     productId: number;
+    cartCount: number;
   };
 };
 export type FilterCategoryCheckBoxAction = {
@@ -98,11 +100,12 @@ export function filterBrandCheckBox(brandList: string[] | []): FilterBrandCheckB
   };
 }
 
-export function removeFromCart(productId: number): RemoveFromCartAction {
+export function removeFromCart(productId: number, cartCount: number): RemoveFromCartAction {
   return {
     type: 'removeFromCart',
     payload: {
       productId,
+      cartCount,
     },
   };
 }
@@ -110,6 +113,11 @@ export function removeFromCart(productId: number): RemoveFromCartAction {
 export function init(): { type: 'init' } {
   return {
     type: 'init',
+  };
+}
+export function stop(): { type: 'stop' } {
+  return {
+    type: 'stop',
   };
 }
 
@@ -139,11 +147,17 @@ export function sortProducts(sortType: SortUnionType): SortProductsAction {
   };
 }
 
-export function addToCart(productId: number): AddToCartAction {
+export function addToCart(productId: number, cartCount: number): AddToCartAction {
   return {
     type: 'addToCart',
     payload: {
       productId,
+      cartCount,
     },
+  };
+}
+export function cleanupCart(): { type: 'cleanupCart' } {
+  return {
+    type: 'cleanupCart',
   };
 }
