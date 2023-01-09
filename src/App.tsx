@@ -16,10 +16,10 @@ function App({ store }: { store: StoreType }) {
     <StoreProvider value={store}>
       <Router>
         <Switch>
-          <Route path='/' component={HomePage} />
-          <Route path='/cart' component={CartPage} />
-          <Route path='/product/:id' component={ProductPage} />
-          <Route path='/:rest*' component={NotFoundPage} />
+          <Route path="/" component={HomePage} />
+          <Route path="/cart" component={CartPage} />
+          <Route path="/product/:id" component={ProductPage} />
+          <Route path="/:rest*" component={NotFoundPage} />
         </Switch>
       </Router>
     </StoreProvider>

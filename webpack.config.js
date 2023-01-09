@@ -12,7 +12,11 @@ module.exports = {
     },
     devtool: 'source-map',
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: {
+            rewrites: [
+              { from: /./, to: '/index.html' }, // all request to index.html
+            ],
+          }
     },
     plugins: [
         new HtmlWebpackPlugin({
