@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Box, Container, Grid, GridItem, Flex,
+  Box, Container, Grid, GridItem, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink,
 } from '@chakra-ui/react';
 import FilterSidebar from 'src/Components/FilterSidebar';
 import Layout from 'src/Layout/Layout';
@@ -12,15 +12,25 @@ import FilterCheckCategoryComponent from 'src/Components/FilterCheckCategoryComp
 import useStoreState from 'src/hooks/useStoreState';
 import FilterCheckBrandComponent from 'src/Components/FilterCheckBrandComponent';
 import * as actions from '../Actions';
-// ['smartphones', 'laptops', 'fragrances', 'skincare', 'groceries', 'home-decoration']
 
 export default function HomePage() {
   const [state, dispatch] = useStoreState();
+  useEffect(() => {
+    dispatch(actions.init());
+    return () => {
+      dispatch(actions.stop());
+    };
+  }, [dispatch]);
 
   return (
     <Layout>
       <Box>
         <Container maxW="6xl">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
           <Grid
             templateColumns="repeat(4, 1fr)"
             gap={4}
@@ -72,13 +82,13 @@ export default function HomePage() {
                   }
                 }
                 handleAddToCart={
-                  (productId: number) => {
-                    dispatch(actions.addToCart(productId));
+                  (productId: number, cartCount: number) => {
+                    dispatch(actions.addToCart(productId, cartCount));
                   }
                 }
                 handleRemoveFromCart={
-                  (productId: number) => {
-                    dispatch(actions.removeFromCart(productId));
+                  (productId: number, cartCount: number) => {
+                    dispatch(actions.removeFromCart(productId, cartCount));
                   }
                 }
               />
