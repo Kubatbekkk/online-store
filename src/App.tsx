@@ -5,6 +5,7 @@ import { Route, Router, Switch } from 'wouter';
 import HomePage from './Pages/HomePage';
 import CartPage from './Pages/CartPage';
 import NotFoundPage from './Pages/NotFoundPage';
+import ProductPage from './Pages/ProductPage';
 import { StoreType } from './Store';
 import { StoreProvider } from './contexts/StoreContext';
 
@@ -15,9 +16,10 @@ function App({ store }: { store: StoreType }) {
     <StoreProvider value={store}>
       <Router>
         <Switch>
-          <Route path="/" component={HomePage} />
-          <Route path="/cart" component={CartPage} />
-          <Route path="/:rest*" component={NotFoundPage} />
+          <Route path='/' component={HomePage} />
+          <Route path='/cart' component={CartPage} />
+          <Route path='/product/:id' component={ProductPage} />
+          <Route path='/:rest*' component={NotFoundPage} />
         </Switch>
       </Router>
     </StoreProvider>

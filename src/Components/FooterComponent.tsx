@@ -91,7 +91,7 @@ export default function Footer() {
               @Kubatbekkk
             </Flex>
           </Link>
-          <Link href="https://github.com/Kubatbekkk" isExternal color="blackAlpha.700" _hover={{ color: 'blue.500', textDecoration: 'none' }}>
+          <Link href="https://github.com/flopinski" isExternal color="blackAlpha.700" _hover={{ color: 'blue.500', textDecoration: 'none' }}>
             <Flex gap={2}>
 
               <SocialButton label="GitHub">

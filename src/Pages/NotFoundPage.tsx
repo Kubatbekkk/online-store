@@ -1,11 +1,25 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, Flex, Box } from '@chakra-ui/react';
+
 import React from 'react';
 import Layout from '../Layout/Layout';
 
-export default function NotFoundPage() {
+function NotFoundPage() {
   return (
     <Layout>
-      <Heading size="md">NotFoundPage</Heading>
+      <Flex
+        minWidth='max-content'
+        alignItems='center'
+        justifyContent='center'
+        minHeight='70vh'
+      >
+        <Box>
+          <Heading className='heading-404' as='h1' size='3xl'>
+            Page Not Found! (404)
+          </Heading>
+        </Box>
+      </Flex>
     </Layout>
   );
 }
+
+export default NotFoundPage;
