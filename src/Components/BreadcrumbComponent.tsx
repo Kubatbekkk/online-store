@@ -6,7 +6,7 @@ export default function Breadcrumbs(product: Product) {
   return (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href='/'>Store</BreadcrumbLink>
+        <BreadcrumbLink href="/">Store</BreadcrumbLink>
       </BreadcrumbItem>
 
       <BreadcrumbItem>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -38,18 +37,18 @@ export default function NameInput() {
   return (
     <FormControl isRequired>
       <Input
-        name='input'
+        name="input"
         value={input}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Name and Surname (required)'
+        placeholder="Name and Surname (required)"
       />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter your name and surname to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           Name and surname are required.
         </FormErrorMessage>
       )}

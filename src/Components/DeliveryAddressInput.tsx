@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -37,18 +36,18 @@ export default function DeliveryAddressInput() {
   return (
     <FormControl mt={3} isRequired>
       <Input
-        name='input'
+        name="input"
         value={input}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Delivery address (required)'
+        placeholder="Delivery address (required)"
       />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter your delivery address to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           Delivery address is required.
         </FormErrorMessage>
       )}

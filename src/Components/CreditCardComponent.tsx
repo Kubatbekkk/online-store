@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ModalBody, Flex, Image, Input } from '@chakra-ui/react';
+import {
+  ModalBody, Flex, Image, Input,
+} from '@chakra-ui/react';
 import CardNumberInput from 'src/Components/CardNumberInput';
 import ValidThruInput from 'src/Components/ValidThruInput';
 import CvvCodeInput from 'src/Components/CvvCodeInput';
@@ -21,50 +23,50 @@ export default function CreditCard() {
   return (
     <ModalBody
       mb={5}
-      background='linear-gradient(90deg,rgb(33,113,175) 6%,rgb(9,9,101) 34%,rgb(0,212,212) 100%)'
-      border='2px solid lightblue'
-      width='55%'
-      height='7rem'
-      mx='auto'
-      borderRadius='0.5rem'
+      background="linear-gradient(90deg,rgb(33,113,175) 6%,rgb(9,9,101) 34%,rgb(0,212,212) 100%)"
+      border="2px solid lightblue"
+      width="55%"
+      height="7rem"
+      mx="auto"
+      borderRadius="0.5rem"
     >
-      <Flex alignItems='center' justifyContent='center' margin='7% auto 10%'>
+      <Flex alignItems="center" justifyContent="center" margin="7% auto 10%">
         <Image
           src={handleImage()}
-          alt='credit card initial logo'
-          backgroundColor='white'
-          w='10%'
-          borderRadius='0.25rem'
-          p='0.3rem'
-        ></Image>
+          alt="credit card initial logo"
+          backgroundColor="white"
+          w="10%"
+          borderRadius="0.25rem"
+          p="0.3rem"
+        />
         <CardNumberInput
           setFirstCardNumber={setFirstCardNumber}
-        ></CardNumberInput>
+        />
       </Flex>
       <Flex
-        alignItems='center'
-        justifyContent='space-between'
-        m='0 auto'
-        mb='5%'
-        w='100%'
+        alignItems="center"
+        justifyContent="space-between"
+        m="0 auto"
+        mb="5%"
+        w="100%"
       >
         <Flex
-          color='white'
-          alignItems='center'
-          justifyContent='center'
-          fontSize='xs'
+          color="white"
+          alignItems="center"
+          justifyContent="center"
+          fontSize="xs"
         >
           VALID:
-          <ValidThruInput></ValidThruInput>
+          <ValidThruInput />
         </Flex>
         <Flex
-          color='white'
-          alignItems='center'
-          justifyContent='center'
-          fontSize='xs'
+          color="white"
+          alignItems="center"
+          justifyContent="center"
+          fontSize="xs"
         >
           CVV:
-          <CvvCodeInput></CvvCodeInput>
+          <CvvCodeInput />
         </Flex>
       </Flex>
     </ModalBody>

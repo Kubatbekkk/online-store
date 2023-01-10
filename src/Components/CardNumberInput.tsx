@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -43,30 +42,30 @@ export default function CardNumberInput(
   return (
     <FormControl isRequired>
       <Input
-        name='input'
+        name="input"
         value={input}
-        type='number'
+        type="number"
         maxLength={16}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Card number'
-        background='white'
-        w='80%'
-        borderRadius='0.25rem'
-        textAlign='center'
-        border='1px solid lightblue'
-        outline='none'
-        marginLeft='2%'
-        fontSize='xl'
-        color='black'
-        fontWeight='700'
-      ></Input>
+        placeholder="Card number"
+        background="white"
+        w="80%"
+        borderRadius="0.25rem"
+        textAlign="center"
+        border="1px solid lightblue"
+        outline="none"
+        marginLeft="2%"
+        fontSize="xl"
+        color="black"
+        fontWeight="700"
+      />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter a valid card number to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           A valid card number is required.
         </FormErrorMessage>
       )}

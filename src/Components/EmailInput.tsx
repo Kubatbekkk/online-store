@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -15,8 +14,7 @@ export default function EmailInput() {
 
   const inputHandler = (e) => {
     setInput(e.target.value);
-    const regExp =
-      /([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*@([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*[\.]([A-zА-я])+/;
+    const regExp = /([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*@([A-zА-я])+([0-9\-_\+\.])*([A-zА-я0-9\-_\+\.])*[\.]([A-zА-я])+/;
     setInputError(!regExp.test(String(e.target.value)));
   };
 
@@ -38,18 +36,18 @@ export default function EmailInput() {
   return (
     <FormControl mt={3} mb={5} isRequired>
       <Input
-        name='input'
+        name="input"
         value={input}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Email address (required)'
+        placeholder="Email address (required)"
       />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter a vaild email to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           Your email adress is required.
         </FormErrorMessage>
       )}

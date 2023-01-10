@@ -7,13 +7,13 @@ function NotFoundPage() {
   return (
     <Layout>
       <Flex
-        minWidth='max-content'
-        alignItems='center'
-        justifyContent='center'
-        minHeight='70vh'
+        minWidth="max-content"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="70vh"
       >
         <Box>
-          <Heading className='heading-404' as='h1' size='3xl'>
+          <Heading className="heading-404" as="h1" size="3xl">
             Page Not Found! (404)
           </Heading>
         </Box>

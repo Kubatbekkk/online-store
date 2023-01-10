@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { applyMiddleware, createStore } from 'redux';
@@ -11,7 +14,6 @@ import * as actions from './Actions';
 import sortByBrand from './utils/sortByBrand';
 import filterByPriceRange from './utils/filterByPriceRange';
 import filterByStockRange from './utils/filterByStockRange';
-import countInCartProduct from './utils/countIncartProduct';
 import createCartService from './Services/CartService';
 
 export type StoreType = ReturnType<typeof initProductListStore>;
@@ -206,8 +208,8 @@ function productListReducer(state: ProductListState = {
         }
         return product;
       });
-      const product = products.find((product) => product.id === action.payload.productId)!;
-      const cart = { ...state.cart, [product.id]: product.cartCount };
+      const product = products.find((product) => product.id === action.payload.productId);
+      const cart = product && { ...state.cart, [product.id]: product.cartCount };
       const totalItems = Object.values(cart)
         .reduce((sum, product) => sum + product, 0);
       const totalAmount = Object.entries(cart)

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -19,7 +18,7 @@ export default function ValidThruInput() {
     }
     const { value } = e.target;
     if (value.length === 2 && !value.includes('/')) {
-      setInput(value + '/');
+      setInput(`${value}/`);
     } else {
       setInput(value);
     }
@@ -46,31 +45,31 @@ export default function ValidThruInput() {
   return (
     <FormControl isRequired>
       <Input
-        name='input'
+        name="input"
         onChange={(e) => {
           inputHandler(e);
         }}
         value={input}
         onBlur={(e) => blurHandler(e)}
-        fontWeight='700'
+        fontWeight="700"
         maxLength={5}
-        w='70%'
-        height='1rem'
-        placeholder='valid thru'
-        borderRadius='0.25rem'
-        textAlign='center'
-        border='1px solid lightblue'
-        outline='none'
-        marginLeft='2%'
-        color='black'
-        background='white'
-      ></Input>
+        w="70%"
+        height="1rem"
+        placeholder="valid thru"
+        borderRadius="0.25rem"
+        textAlign="center"
+        border="1px solid lightblue"
+        outline="none"
+        marginLeft="2%"
+        color="black"
+        background="white"
+      />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter a valid thru date to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           A valid thru date is required.
         </FormErrorMessage>
       )}

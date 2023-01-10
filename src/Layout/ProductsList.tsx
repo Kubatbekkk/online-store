@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable max-len */
 import {
   Box, Heading, Flex, Text,
 } from '@chakra-ui/react';
@@ -5,12 +7,14 @@ import React from 'react';
 import type { Product } from 'src/Types/ProductType';
 import SearchComponent from 'src/Components/SearchComponent';
 import SelectSortComponent from 'src/Components/SelectSortComponent';
+import { ProductListState } from 'src/Store';
 import ProductCard from '../Components/CardComponent';
 import * as actions from '../Actions';
 
 export default function ProductsList({
   products, handleSort, handleAddToCart, state, dispatch, handleRemoveFromCart,
-}) {
+}: { products: Product[], handleSort: Function,
+  handleAddToCart: Function, state: ProductListState, dispatch: Function, handleRemoveFromCart: Function }) {
   const { searchValue } = state;
 
   return (
@@ -30,7 +34,7 @@ export default function ProductsList({
           </Box>
           <Box>
             <SearchComponent
-              handleSearch={(searchValue) => {
+              handleSearch={(searchValue: string) => {
                 dispatch(actions.findItemFromList(searchValue));
               }}
               searchValue={searchValue}
@@ -47,6 +51,7 @@ export default function ProductsList({
               handleAddToCart={(cartCount: number) => handleAddToCart(product.id, cartCount)}
               handleRemoveFromCart={(cartCount: number) => handleRemoveFromCart(product.id, cartCount)}
             />
+
           ))}
         </Flex>
       </div>

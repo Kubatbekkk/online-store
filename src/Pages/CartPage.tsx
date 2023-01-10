@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import {
   Box,
-  Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, Input, SimpleGrid, Stack, Text,
+  Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container,
+  Divider, Flex, Heading, Input, SimpleGrid, Stack, Text,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import Layout from 'src/Layout/Layout';
@@ -10,8 +12,9 @@ import CartBlockHeaderComponent from 'src/Components/CartBlockHeaderComponent';
 import {
   addToCart, init, removeFromCart, stop,
 } from 'src/Actions';
+import { ProductListState } from 'src/Store';
 
-function getProductById(state, productId) {
+function getProductById(state: ProductListState, productId: number) {
   return state.products.find((product) => product.id === productId);
 }
 
@@ -52,8 +55,8 @@ export default function CartPage() {
                 key={productId}
                 product={getProductById(state, parseInt(productId, 10))}
                 index={index}
-                handleAddToCart={(cartCount) => { dispatch(addToCart(parseInt(productId), cartCount)); }}
-                handleRemoveFromCart={(cartCount) => { dispatch(removeFromCart(parseInt(productId), cartCount)); }}
+                handleAddToCart={(cartCount) => { dispatch(addToCart(parseInt(productId, 10), cartCount)); }}
+                handleRemoveFromCart={(cartCount) => { dispatch(removeFromCart(parseInt(productId, 10), cartCount)); }}
               />
             ))}
 

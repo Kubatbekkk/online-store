@@ -1,15 +1,16 @@
 import React from 'react';
 import {
-  Heading, CardBody, Image, Stack, Card, Text, Divider, CardFooter, ButtonGroup, Button,
+  Heading, CardBody, Image, Stack, Card, Text, Divider, CardFooter, ButtonGroup, Button, Flex,
 } from '@chakra-ui/react';
 import { numFormat } from 'src/utils/numFormat';
 import { Product } from 'src/Types/ProductType';
+import { Link } from 'wouter';
 
 export default function CardComponent({ product, handleAddToCart, handleRemoveFromCart }: {
   product: Product, handleAddToCart: Function, handleRemoveFromCart: Function
 }) {
   const {
-    title, description, price, thumbnail, cartCount,
+    title, description, price, thumbnail, cartCount, id,
   } = product;
   return (
     <Card
@@ -29,9 +30,12 @@ export default function CardComponent({ product, handleAddToCart, handleRemoveFr
           <Text isTruncated>
             {description}
           </Text>
-          <Text color="blue.600" fontSize="md">
-            {numFormat.format(price)}
-          </Text>
+          <Flex justifyContent="space-between">
+            <Link href={`/product/${id}`} className="details-link">Details</Link>
+            <Text color="blue.600" fontSize="md">
+              {numFormat.format(price)}
+            </Text>
+          </Flex>
         </Stack>
       </CardBody>
       <Divider />

@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import {
   Input,
-} from '@chakra-ui/react';
 
-import {
-  FormControl,  
+  FormControl,
   FormErrorMessage,
   FormHelperText,
 } from '@chakra-ui/react';
@@ -18,8 +16,8 @@ export default function NumberInput() {
   const inputHandler = (e) => {
     setInput(e.target.value);
     const regExp = new RegExp('^[\+][(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$');
-    setInputError(!regExp.test(e.target.value)); 
-  }
+    setInputError(!regExp.test(e.target.value));
+  };
 
   const blurHandler = (e) => {
     switch (e.target.name) {
@@ -39,18 +37,18 @@ export default function NumberInput() {
   return (
     <FormControl isRequired mt={3}>
       <Input
-        name='input'
+        name="input"
         value={input}
-        onChange={e => inputHandler(e)}
+        onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Phone number (required)'
+        placeholder="Phone number (required)"
       />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter your phone number to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>
+        <FormErrorMessage color="red">
           Phone number is required.
         </FormErrorMessage>
       )}

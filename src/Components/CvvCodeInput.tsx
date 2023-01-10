@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '@chakra-ui/react';
-
 import {
+  Input,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -41,27 +40,27 @@ export default function CvvCodeInput() {
   return (
     <FormControl isRequired mt={3}>
       <Input
-        name='input'
+        name="input"
         value={input}
         onChange={(e) => inputHandler(e)}
         onBlur={(e) => blurHandler(e)}
-        placeholder='Code'
+        placeholder="Code"
         maxLength={3}
-        w='60%'
-        height='1rem'
-        background='white'
-        borderRadius='0.25rem'
-        textAlign='center'
-        ml='2%'
-        color='black'
-        fontWeight='700'
+        w="60%"
+        height="1rem"
+        background="white"
+        borderRadius="0.25rem"
+        textAlign="center"
+        ml="2%"
+        color="black"
+        fontWeight="700"
       />
       {inputDirty && inputError ? (
-        <FormHelperText color='red'>
+        <FormHelperText color="red">
           Please, enter CVV code to process the order
         </FormHelperText>
       ) : (
-        <FormErrorMessage color='red'>CVV is required.</FormErrorMessage>
+        <FormErrorMessage color="red">CVV is required.</FormErrorMessage>
       )}
     </FormControl>
   );

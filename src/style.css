@@ -89,3 +89,7 @@ footer {
 .svg_wrapper > *:hover {
   fill: red;
 }
+
+.details-link {
+  color:blue;
+}

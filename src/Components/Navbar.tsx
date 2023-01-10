@@ -5,7 +5,8 @@ import {
 import { numFormat } from 'src/utils/numFormat';
 import Cart from './CartComponent';
 
-export default function Navbar({ totalItems, totalAmount }: { totalItems: number, totalAmount: number }) {
+export default function Navbar({ totalItems, totalAmount }:
+{ totalItems: number, totalAmount: number }) {
   return (
     <Box boxShadow="base" bg={useColorModeValue('gray.50', 'gray.900')}>
       <Container maxW="6xl">
