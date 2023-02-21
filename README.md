@@ -1,4 +1,4 @@
-## React TypeScript Online Store
+## React TypeScript Online Store (RS-School)
 
 [Made with React](https://beta.reactjs.org/) |  [Deployment on Netlify](https://rstechkn.netlify.app/)
 
